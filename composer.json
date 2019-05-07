@@ -1,0 +1,26 @@
+{
+    "name": "dederobert/pphi",
+    "description": "PHP Persistence Holder Interface",
+    "type": "library",
+    "license": "GNU GPL 3",
+    "version": "1.0.0-alpha",
+    "authors": [
+        {
+            "name": "dederobert",
+            "email": "adinquer@yahoo.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": { 
+            "PPHI\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=7.2.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.1",
+        "php-mock/php-mock-phpunit": "^2.3",
+        "php-coveralls/php-coveralls": "^2.1"
+    }
+}
