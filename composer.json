@@ -2,7 +2,7 @@
     "name": "dederobert/pphi",
     "description": "PHP Persistence Holder Interface",
     "type": "library",
-    "license": "GNU GPL 3",
+    "license": "GPL-3.0-or-later",
     "version": "1.0.0-alpha",
     "authors": [
         {
