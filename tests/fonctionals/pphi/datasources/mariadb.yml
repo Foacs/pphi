@@ -1,0 +1,9 @@
+---
+type: MySQL # Default value is MySQL
+mysql:
+  url: localhost
+  port: 3306
+  username: root
+  password: ""
+  database: pphi_test
+...
