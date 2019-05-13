@@ -4,34 +4,34 @@ namespace PPHI\DataSource\Source;
 
 use PPHI\Exception\WrongMySQLDataSourcesConfigurationException;
 
-class MySQLDataSource implements DataSource
+class MySQLDataSource extends DataSource
 {
 
     private $dataSourceName;
 
     /**
-     * MySQL database url
+     * MySQL Database url
      * @var string
      */
     private $url;
     /**
-     * MySQL database access port
+     * MySQL Database access port
      * @var integer
      */
     private $port;
     /**
-     * MySQL database username
+     * MySQL Database username
      * @var string
      */
     private $username;
     /**
-     * MySQL database password
+     * MySQL Database password
      * @var string
      */
     private $password;
 
     /**
-     * MySQL database name
+     * MySQL Database name
      *
      * @var string
      */
@@ -43,6 +43,7 @@ class MySQLDataSource implements DataSource
      */
     public function __construct(string $dataSourceName)
     {
+        parent::__construct();
         $this->dataSourceName = $dataSourceName;
     }
 
@@ -93,5 +94,50 @@ class MySQLDataSource implements DataSource
                 $this->$fieldName = $default;
             }
         }
+    }
+
+    /**
+     * @return string
+     */
+    public function getUsername(): string
+    {
+        return $this->username;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPort(): int
+    {
+        return $this->port;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUrl(): string
+    {
+        return $this->url;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDatabase(): string
+    {
+        return $this->database;
+    }
+
+    public function getType(): string
+    {
+        return "mysql";
     }
 }
