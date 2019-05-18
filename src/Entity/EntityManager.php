@@ -58,8 +58,11 @@ class EntityManager extends DirectoryLoader
         try {
             return new \ReflectionClass($this->namespace . $className);
         } catch (\ReflectionException $e) {
-            throw new EntityClassException("The entity in file " . $fileName . " is not in good format",
-                $e->getCode(), $e);
+            throw new EntityClassException(
+                "The entity in file " . $fileName . " is not in good format",
+                $e->getCode(),
+                $e
+            );
         }
     }
 }

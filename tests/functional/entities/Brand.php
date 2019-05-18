@@ -31,5 +31,4 @@ class Brand
     {
         $this->name = $name;
     }
-
 }

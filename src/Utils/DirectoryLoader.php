@@ -68,7 +68,7 @@ abstract class DirectoryLoader
      *
      * @return array A array of valid extension
      */
-    public abstract function getValidExtension(): array;
+    abstract public function getValidExtension(): array;
 
     /**
      * Parse a file into a loaded object
@@ -77,7 +77,7 @@ abstract class DirectoryLoader
      *
      * @return object The result of the parsing
      */
-    public abstract function parse(string $fileName);
+    abstract public function parse(string $fileName);
 
     /**
      * @return array
@@ -87,5 +87,4 @@ abstract class DirectoryLoader
 
         return $this->loadedElements;
     }
-
 }
