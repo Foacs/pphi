@@ -11,6 +11,14 @@ namespace PPHI\Utils;
 use PPHI\Exception\DirectoryNotFoundException;
 use PPHI\Exception\WrongFileFormatException;
 
+/**
+ * Class DirectoryLoader
+ * Specified a class which load file and data from a directory
+ *
+ * @package PPHI\Utils
+ * @author Alexis DINQUER <adinquer@yahoo.com>
+ * @since 0.2.0-alpha
+ */
 abstract class DirectoryLoader
 {
     /**

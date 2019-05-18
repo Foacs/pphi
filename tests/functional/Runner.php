@@ -19,5 +19,8 @@ class Runner
     {
 
         $this->pphi = new PPHI();
+        $this->pphi->preInit();
+        $this->pphi->init();
+        $this->pphi->start();
     }
 }

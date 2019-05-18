@@ -12,6 +12,13 @@ use PPHI\Connector\Database\MySQLConnector;
 use PPHI\DataSource\Source\DataSource;
 use PPHI\Exception\UnknownDataSourcesTypeException;
 
+/**
+ * Class ConnectionManager
+ * Used to handle connection with data source
+ *
+ * @package PPHI\Connector
+ * @author Alexis DINQUER <adinquer@yahoo.com>
+ */
 class ConnectionManager
 {
 

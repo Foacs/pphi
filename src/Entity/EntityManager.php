@@ -14,7 +14,9 @@ use PPHI\Utils\DirectoryLoader;
 
 /**
  * Class EntityManager
+ *
  * @package PPHI\Entity
+ * @author Alexis DINQUER <adinquer@yahoo.com>
  */
 class EntityManager extends DirectoryLoader
 {

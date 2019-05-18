@@ -33,25 +33,46 @@ class PPHI
 
     /**
      * PPHI constructor.
-     * Load all dataSources found in pphi/datasources directory
+     * Create manager
      *
-     * @throws Exception\UnknownDataSourcesTypeException when a data sources type is unknown
-     * @throws Exception\datasource\DataSourceDirectoryNotFoundException
-     * @throws WrongFileFormatException when dataSources directory contains not YAML files
      * @throws DirectoryNotFoundException
+     * @throws Exception\datasource\DataSourceDirectoryNotFoundException
      */
     public function __construct()
     {
         $this->dataSourcesManager = new DataSourceManager(self::DATA_SOURCES_PATH);
         $this->connectionManager = new ConnectionManager();
         $this->entityManager = new EntityManager(self::ENTITY_DIRECTORY_PATH, self::ENTITY_NAMESPACE);
+    }
 
+    /**
+     * Initialise manager
+     * Load file for manager
+     *
+     * @throws WrongFileFormatException when try to load a file in wrong format
+     */
+    public function preInit(): void
+    {
         $this->dataSourcesManager->init();
         $this->entityManager->init();
+    }
 
+    /**
+     * Load data into manager
+     *
+     * @throws Exception\UnknownDataSourcesTypeException when try to load data source with unknown type
+     */
+    public function init(): void
+    {
         $this->dataSourcesManager->load();
         $this->connectionManager->addConnectionFromDataSourceArray($this->dataSourcesManager->getDataSources());
+    }
 
+    /**
+     * Start PPHI
+     */
+    public function start(): void
+    {
         echo "<pre>";
         print_r($this->entityManager->getLoadedElements());
         print_r($this->connectionManager->getConnections());

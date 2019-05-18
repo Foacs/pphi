@@ -3,7 +3,7 @@
   "description": "PHP Persistence Holder Interface",
   "type": "library",
   "license": "GPL-3.0-or-later",
-  "version": "1.0.0-alpha",
+  "version": "0.2.0-alpha",
   "authors": [
     {
       "name": "dederobert",
