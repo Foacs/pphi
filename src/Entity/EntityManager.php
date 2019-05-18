@@ -19,15 +19,22 @@ use PPHI\Utils\DirectoryLoader;
 class EntityManager extends DirectoryLoader
 {
     /**
+     * @var string
+     */
+    private $namespace;
+
+    /**
      * EntityManager constructor.
      *
-     * @param string $path
+     * @param string $path Entity directory path
+     * @param string $namespace
      *
      * @throws DirectoryNotFoundException
      */
-    public function __construct(string $path)
+    public function __construct(string $path, string $namespace)
     {
         parent::__construct($path);
+        $this->namespace = $namespace;
     }
 
     /**
@@ -44,10 +51,12 @@ class EntityManager extends DirectoryLoader
      */
     public function parse(string $fileName)
     {
-        require $fileName;
+        /** @noinspection PhpIncludeInspection */
+        include_once $fileName;
+        $className = pathinfo($fileName, PATHINFO_FILENAME);
 
         try {
-            return new \ReflectionClass("PPHI\\FunctionalTest\\entities\\Car");
+            return new \ReflectionClass($this->namespace . $className);
         } catch (\ReflectionException $e) {
             throw new EntityClassException("The entity in file " . $fileName . " is not in good format",
                 $e->getCode(), $e);

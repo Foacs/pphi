@@ -14,11 +14,7 @@ class PPHI
 
     const DATA_SOURCES_PATH = "pphi/datasources";
     const ENTITY_DIRECTORY_PATH = "entities";
-
-    /**
-     * @var array
-     */
-    private $dataSources = array();
+    const ENTITY_NAMESPACE = "PPHI\\FunctionalTest\\entities\\";
 
     /**
      * @var DataSourceManager
@@ -48,16 +44,16 @@ class PPHI
     {
         $this->dataSourcesManager = new DataSourceManager(self::DATA_SOURCES_PATH);
         $this->connectionManager = new ConnectionManager();
-        $this->entityManager = new EntityManager(self::ENTITY_DIRECTORY_PATH);
+        $this->entityManager = new EntityManager(self::ENTITY_DIRECTORY_PATH, self::ENTITY_NAMESPACE);
 
         $this->dataSourcesManager->init();
         $this->entityManager->init();
 
-        $this->dataSourcesManager->load($this->dataSources);
-        //$this->connectionManager->addConnectionFromDataSourceArray($this->dataSourcesManager->getLoadedElements());
+        $this->dataSourcesManager->load();
+        $this->connectionManager->addConnectionFromDataSourceArray($this->dataSourcesManager->getDataSources());
 
         echo "<pre>";
-        print_r($this->dataSourcesManager->getLoadedElements());
+        print_r($this->entityManager->getLoadedElements());
         print_r($this->connectionManager->getConnections());
         echo "<h1>Error</h1>";
         print_r($this->connectionManager->getAndFlushErrors());

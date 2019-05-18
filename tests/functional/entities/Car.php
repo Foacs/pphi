@@ -16,7 +16,7 @@ class Car
 {
 
     /**
-     * @var string
+     * @var Brand
      */
     private $brand;
 
@@ -28,7 +28,7 @@ class Car
     /**
      * @return mixed
      */
-    public function getBrand()
+    public function getBrand(): Brand
     {
         return $this->brand;
     }
@@ -36,7 +36,7 @@ class Car
     /**
      * @param mixed $brand
      */
-    public function setBrand($brand): void
+    public function setBrand(Brand $brand): void
     {
         $this->brand = $brand;
     }

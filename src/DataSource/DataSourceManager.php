@@ -60,9 +60,9 @@ class DataSourceManager extends DirectoryLoader
      *
      * @throws UnknownDataSourcesTypeException when found an unknown data sources type
      */
-    public function load(array $dataSources): void
+    public function load(): void
     {
-        foreach ($dataSources as $dataSourceName => $dataSource) {
+        foreach ($this->getLoadedElements() as $dataSourceName => $dataSource) {
             $dataSourceType = strtolower($dataSource['type']) ?? "mysql";
             $ds = $this->processor->execute($dataSourceType);
             if (!is_null($ds)) {
@@ -88,5 +88,13 @@ class DataSourceManager extends DirectoryLoader
     public function parse(string $fileName)
     {
         return \yaml_parse_file($fileName);
+    }
+
+    /**
+     * @return array
+     */
+    public function getDataSources(): array
+    {
+        return $this->dataSources;
     }
 }
