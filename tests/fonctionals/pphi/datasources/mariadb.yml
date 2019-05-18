@@ -1,9 +1,9 @@
 ---
 type: MySQL # Default value is MySQL
 mysql:
-  url: localhost
+  url: db
   port: 3306
   username: root
-  password: ""
+  password: root
   database: pphi_test
 ...

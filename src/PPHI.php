@@ -2,6 +2,7 @@
 
 namespace PPHI;
 
+use PPHI\Connector\ConnectionManager;
 use PPHI\DataSource\DataSourceManager;
 use PPHI\Exception\ConfigNotFoundException;
 use PPHI\Exception\WrongFileFormatException;
@@ -12,9 +13,20 @@ class PPHI
 
     const DATA_SOURCES_PATH = "pphi/datasources";
 
+    /**
+     * @var array
+     */
     private $dataSources = array();
 
+    /**
+     * @var DataSourceManager
+     */
     private $dataSourcesManager;
+
+    /**
+     * @var ConnectionManager
+     */
+    private $connectionManager;
 
     /**
      * PPHI constructor.
@@ -27,6 +39,7 @@ class PPHI
     public function __construct()
     {
         $this->dataSourcesManager = new DataSourceManager();
+        $this->connectionManager = new ConnectionManager();
         $dataSourcesDir = dir(self::DATA_SOURCES_PATH);
         if (is_null($dataSourcesDir) || $dataSourcesDir === false) {
             throw new ConfigNotFoundException("Data sources (pphi/datasources) config directory not found");
@@ -43,5 +56,12 @@ class PPHI
             }
         }
         $this->dataSourcesManager->load($this->dataSources);
+        $this->connectionManager->addConnectionFromDataSourceArray($this->dataSourcesManager->getDataSources());
+
+        echo "<pre>";
+        print_r($this->connectionManager->getConnections());
+        echo "<h1>Error</h1>";
+        print_r($this->connectionManager->getAndFlushErrors());
+        echo "</pre>";
     }
 }
