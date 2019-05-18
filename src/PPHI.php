@@ -82,11 +82,20 @@ class PPHI
      */
     public function start(): void
     {
+        $this->entityManager->load();
         echo "<pre>";
         print_r($this->entityManager->getLoadedElements());
         print_r($this->connectionManager->getConnections());
         echo "<h1>Error</h1>";
         print_r($this->connectionManager->getAndFlushErrors());
         echo "</pre>";
+    }
+
+    /**
+     * @return EntityManager
+     */
+    public function getEntityManager(): EntityManager
+    {
+        return $this->entityManager;
     }
 }

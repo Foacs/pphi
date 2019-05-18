@@ -10,6 +10,7 @@ namespace PPHI\Entity;
 
 use PPHI\Exception\DirectoryNotFoundException;
 use PPHI\Exception\entity\EntityClassException;
+use PPHI\Exception\entity\EntityFormatException;
 use PPHI\Utils\DirectoryLoader;
 
 /**
@@ -68,6 +69,53 @@ class EntityManager extends DirectoryLoader
                 $e->getCode(),
                 $e
             );
+        }
+    }
+
+    public function save($entity): bool
+    {
+        return false;
+    }
+
+    /**
+     * @throws EntityFormatException when |
+     *  entity not instantiable |
+     *  entity has no property |
+     *  entity property has no doc
+     */
+    public function load()
+    {
+        foreach ($this->getLoadedElements() as $entity) {
+            if ($entity instanceof \ReflectionClass) {
+                if (!$entity->isInstantiable()) {
+                    throw new EntityFormatException("The entity " . $entity->getName()
+                        . " have to be instantiable");
+                }
+                $properties = $entity->getProperties();
+                if (empty($properties)) {
+                    throw new EntityFormatException("The entity " . $entity->getName()
+                        . " has no property");
+                }
+                foreach ($properties as $property) {
+                    $docComment = $property->getDocComment();
+                    if (false === $docComment) {
+                        throw new EntityFormatException("The property " . $property->getName() . " in "
+                            . $entity->getName() . " has no PhpDoc");
+                    }
+                    if (preg_match("#\@var *([a-zA-Z][a-zA-Z0-9]*)#", $docComment, $type) === 0) {
+                        throw new EntityFormatException("The property documentation for "
+                            . $property->getName() . " in " . $entity->getName() . " must have a @var [type] element");
+                    }
+
+                    echo "<pre>";
+                    echo $entity->getName();
+                    echo " has property ";
+                    echo($property->getName());
+                    echo " typed ";
+                    echo($type[1]);
+                    echo "</pre>";
+                }
+            }
         }
     }
 }

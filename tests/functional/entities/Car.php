@@ -15,6 +15,7 @@ namespace PPHI\FunctionalTest\entities;
 class Car
 {
 
+
     /**
      * @var Brand
      */
@@ -44,7 +45,7 @@ class Car
     /**
      * @return mixed
      */
-    public function getColor()
+    public function getColor(): string
     {
         return $this->color;
     }
@@ -52,7 +53,7 @@ class Car
     /**
      * @param mixed $color
      */
-    public function setColor($color): void
+    public function setColor(string $color): void
     {
         $this->color = $color;
     }
