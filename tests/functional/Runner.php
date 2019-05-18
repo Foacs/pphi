@@ -1,6 +1,6 @@
 <?php
 
-namespace PPHI\FonctionalTest;
+namespace PPHI\FunctionalTest;
 
 use PPHI\PPHI;
 
@@ -10,9 +10,10 @@ class Runner
 
     /**
      * Runner constructor.
-     * @throws \PPHI\Exception\ConfigNotFoundException
+     * @throws \PPHI\Exception\DirectoryNotFoundException
      * @throws \PPHI\Exception\UnknownDataSourcesTypeException
      * @throws \PPHI\Exception\WrongFileFormatException
+     * @throws \PPHI\Exception\datasource\DataSourceDirectoryNotFoundException
      */
     public function __construct()
     {

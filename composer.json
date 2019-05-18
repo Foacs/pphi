@@ -18,7 +18,7 @@
   "autoload-dev": {
     "psr-4": {
       "PPHI\\UnitTest\\": "tests/units",
-      "PPHI\\FonctionalTest\\": "tests/fonctionals"
+      "PPHI\\FunctionalTest\\": "tests/functional"
     }
   },
   "require": {

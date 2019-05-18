@@ -1,7 +1,7 @@
 <?php
 require_once dirname(dirname(__DIR__)) . '/vendor/autoload.php';
 
-use PPHI\FonctionalTest\Runner;
+use PPHI\FunctionalTest\Runner;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
 

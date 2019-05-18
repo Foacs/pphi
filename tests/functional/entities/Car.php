@@ -6,8 +6,12 @@
  * Time: 18:39
  */
 
-namespace PPHI\FonctionalTest\entities;
+namespace PPHI\FunctionalTest\entities;
 
+/**
+ * Class Car
+ * @package PPHI\FonctionalTest\entities
+ */
 class Car
 {
 
