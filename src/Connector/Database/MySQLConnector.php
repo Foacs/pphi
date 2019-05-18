@@ -13,6 +13,14 @@ use PPHI\Connector\ConnectorError;
 use PPHI\DataSource\Source\DataSource;
 use PPHI\DataSource\Source\MySQLDataSource;
 
+/**
+ * Class MySQLConnector
+ * @package PPHI\Connector\Database
+ *
+ * @license GPL 3.0 or later
+ * @author Alexis DINQUER <adinquer@yahoo.com>
+ * @since 0.1.0-alpha First time this was introduced
+ */
 class MySQLConnector implements Connector
 {
 

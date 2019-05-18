@@ -8,6 +8,15 @@ use PPHI\Entity\EntityManager;
 use PPHI\Exception\DirectoryNotFoundException;
 use PPHI\Exception\WrongFileFormatException;
 
+/**
+ * Class PPHI
+ * @package PPHI
+ *
+ * @license GPL 3.0 or later
+ * @author Alexis DINQUER <adinquer@yahoo.com>
+ * @since 0.1.0-alpha First time this was introduced
+ * @since 0.2.0-alpha New sequence
+ */
 class PPHI
 {
     const VERSION = "0.1.0";

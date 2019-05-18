@@ -17,7 +17,10 @@ use PPHI\Exception\UnknownDataSourcesTypeException;
  * Used to handle connection with data source
  *
  * @package PPHI\Connector
+ *
+ * @license GPL 3.0 or later
  * @author Alexis DINQUER <adinquer@yahoo.com>
+ * @since 0.1.0-alpha First time this was introduced
  */
 class ConnectionManager
 {

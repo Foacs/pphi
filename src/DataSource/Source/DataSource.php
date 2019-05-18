@@ -6,9 +6,9 @@ namespace PPHI\DataSource\Source;
  * Class DataSource
  * @package PPHI\DataSource\Source
  *
- * @since 0.1.0-a Handle ID & Type
- *
+ * @license GPL 3.0 or later
  * @author Alexis DINQUER <adinquer@yahoo.com>
+ * @since 0.1.0-alpha First time this was introduced
  */
 abstract class DataSource
 {

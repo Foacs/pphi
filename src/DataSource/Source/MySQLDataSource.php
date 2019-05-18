@@ -4,9 +4,20 @@ namespace PPHI\DataSource\Source;
 
 use PPHI\Exception\WrongMySQLDataSourcesConfigurationException;
 
+/**
+ * Class MySQLDataSource
+ * @package PPHI\DataSource\Source
+ *
+ * @license GPL 3.0 or later
+ * @author Alexis DINQUER <adinquer@yahoo.com>
+ * @since 0.1.0-alpha First time this was introduced
+ */
 class MySQLDataSource extends DataSource
 {
 
+    /**
+     * @var string
+     */
     private $dataSourceName;
 
     /**
@@ -32,7 +43,6 @@ class MySQLDataSource extends DataSource
 
     /**
      * MySQL Database name
-     *
      * @var string
      */
     private $database;
@@ -51,7 +61,10 @@ class MySQLDataSource extends DataSource
      * Setup the mysql data source
      *
      * @param array $config YAML configuration
+     *
      * @throws WrongMySQLDataSourcesConfigurationException when the data source configuration is wrong
+     *
+     * @since 0.1.0-a First time it was introduced
      */
     public function setUp(array $config): void
     {
@@ -80,7 +93,10 @@ class MySQLDataSource extends DataSource
      * @param string $fieldName the field name
      * @param bool $optional Throw an error is not optional field not found
      * @param null $default Default value for optional field
+     *
      * @throws WrongMySQLDataSourcesConfigurationException when the field is missing or wrong type
+     *
+     * @since 0.1.0-a First time it was introduced
      */
     private function setUpField(array $config, string $fieldName, bool $optional = false, $default = null): void
     {
@@ -98,6 +114,8 @@ class MySQLDataSource extends DataSource
 
     /**
      * @return string
+     *
+     * @since 0.1.0-a First time it was introduced
      */
     public function getUsername(): string
     {
@@ -106,6 +124,8 @@ class MySQLDataSource extends DataSource
 
     /**
      * @return string
+     *
+     * @since 0.1.0-a First time it was introduced
      */
     public function getPassword(): string
     {
@@ -114,6 +134,8 @@ class MySQLDataSource extends DataSource
 
     /**
      * @return int
+     *
+     * @since 0.1.0-a First time it was introduced
      */
     public function getPort(): int
     {
@@ -122,6 +144,8 @@ class MySQLDataSource extends DataSource
 
     /**
      * @return string
+     *
+     * @since 0.1.0-a First time it was introduced
      */
     public function getUrl(): string
     {
@@ -130,12 +154,17 @@ class MySQLDataSource extends DataSource
 
     /**
      * @return string
+     *
+     * @since 0.1.0-a First time it was introduced
      */
     public function getDatabase(): string
     {
         return $this->database;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getType(): string
     {
         return "mysql";

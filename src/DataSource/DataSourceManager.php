@@ -19,9 +19,10 @@ use PPHI\Utils\DirectoryLoader;
  * Class DataSourceManager
  * @package PPHI\DataSource
  *
- *
- *
  * @license GPL 3.0 or later
+ * @author Alexis DINQUER <adinquer@yahoo.com>
+ * @since 0.1.0-alpha First time this was introduced
+ * @since 0.2.0-alpha Extends DirectoryLoader
  */
 class DataSourceManager extends DirectoryLoader
 {
