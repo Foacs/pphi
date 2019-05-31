@@ -8,6 +8,7 @@
 
 namespace PPHI\Entity;
 
+use PPHI\DataSource\Source\DataSource;
 use PPHI\Exception\DirectoryNotFoundException;
 use PPHI\Exception\entity\EntityClassException;
 use PPHI\Exception\entity\EntityFormatException;
@@ -88,10 +89,26 @@ class EntityManager extends DirectoryLoader
     {
         try {
             $entityClass = new \ReflectionClass($entity);
-            if (array_key_exists($entityClass->getShortName(), $this->entities)) {
-                $entity = $this->entities[$entityClass->getShortName()];
+            $entityName = $entityClass->getShortName();
+            if (array_key_exists($entityName, $this->entities)) {
+                $pphiEntity = $this->entities[$entityName];
                 foreach (PPHI::getInstance()->getDataSourcesManager()->getDataSources() as $dataSource) {
-                    //Get connection
+                    if ($dataSource instanceof DataSource) {
+                        $dataSource->getConnector()->getQueryBuilder()
+                            ->createDirectory($entityName)
+                            ->withFields($pphiEntity)
+                            ->buildCreate()
+                            ->execute();
+                        $query = $dataSource->getConnector()->getQueryBuilder()
+                            ->save($entityName);
+                        foreach ($pphiEntity as $fields) {
+                            $name = $fields->getName();
+                            $query->withValue($fields, $entity->$name); //TODO call getter instead var
+                        }
+
+                        $query->buildSave()
+                            ->execute();
+                    }
                 }
             } else {
                 throw new EntityClassException("Impossible to save " . $entityClass->getName() .
@@ -113,7 +130,6 @@ class EntityManager extends DirectoryLoader
      */
     public function load()
     {
-
         foreach ($this->getLoadedElements() as $entity) {
             if ($entity instanceof \ReflectionClass) {
                 if (!$entity->isInstantiable()) {
@@ -136,7 +152,9 @@ class EntityManager extends DirectoryLoader
                         throw new EntityFormatException("The property documentation for "
                             . $property->getName() . " in " . $entity->getName() . " must have a @var [type] element");
                     }
-                    $this->entities[$entity->getShortName()][$property->getName()] = $type[1];
+                    $pk = (preg_match("#\@primaryKey#", $docComment) === 1);
+                    $this->entities[$entity->getShortName()][] = new EntityField($property->getName(), $type[1], $pk);
+                    //[$property->getName()] = $type[1];
                 }
             }
         }

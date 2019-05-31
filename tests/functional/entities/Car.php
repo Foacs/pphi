@@ -8,14 +8,15 @@
 
 namespace PPHI\FunctionalTest\entities;
 
+use PPHI\Entity\Entity;
+
 /**
  * Class Car
  * @package PPHI\FonctionalTest\entities
  */
 class Car
 {
-
-
+    use Entity;
     /**
      * @var string
      */

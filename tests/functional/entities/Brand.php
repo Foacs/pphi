@@ -8,13 +8,15 @@
 
 namespace PPHI\FunctionalTest\entities;
 
+use PPHI\Entity\Entity;
+
 class Brand
 {
-
+    use Entity;
     /**
      * @var string
      */
-    private $name;
+    public $name;
 
     /**
      * @return string

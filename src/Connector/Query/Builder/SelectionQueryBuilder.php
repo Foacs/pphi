@@ -16,5 +16,5 @@ interface SelectionQueryBuilder
 
     public function where(string $arg): QueryBuilder;
 
-    public function build(): Query;
+    public function buildSelect(): Query;
 }

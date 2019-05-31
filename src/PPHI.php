@@ -74,12 +74,6 @@ class PPHI
         }
         $listener->onComplete();
     }
-    /**
-     * Start PPHI
-     */
-    public function start(): void
-    {
-    }
 
     /**
      * @return EntityManager

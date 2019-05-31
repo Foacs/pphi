@@ -14,4 +14,6 @@ interface QueryBuilder
     public function createDirectory(string $directoryName): CreationQueryBuilder;
 
     public function select(string $arg): SelectionQueryBuilder;
+
+    public function save(string $tableName): SaveQueryBuilder;
 }

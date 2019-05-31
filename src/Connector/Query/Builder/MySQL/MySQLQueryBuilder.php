@@ -10,19 +10,22 @@ namespace PPHI\Connector\Query\Builder\MySQL;
 
 use PPHI\Connector\Query\Builder\CreationQueryBuilder;
 use PPHI\Connector\Query\Builder\QueryBuilder;
+use PPHI\Connector\Query\Builder\SaveQueryBuilder;
 use PPHI\Connector\Query\Builder\SelectionQueryBuilder;
 use PPHI\Connector\Query\MySQLQuery;
 use PPHI\Connector\Query\Query;
+use PPHI\Entity\EntityField;
 
-class MySQLQueryBuilder implements QueryBuilder, SelectionQueryBuilder, CreationQueryBuilder
+class MySQLQueryBuilder implements QueryBuilder, SelectionQueryBuilder, CreationQueryBuilder, SaveQueryBuilder
 {
     /**
      * @var string
      */
     private $sqlQuery;
 
-    private $createDirectory = false;
     private $fields = [];
+    private $primaryKey = [];
+    private $values = [];
     private $tableName;
     private $pdo;
 
@@ -33,9 +36,7 @@ class MySQLQueryBuilder implements QueryBuilder, SelectionQueryBuilder, Creation
 
     public function select(string $arg): SelectionQueryBuilder
     {
-        if (!$this->createDirectory) {
-            $this->sqlQuery .= "select " . $arg;
-        }
+        $this->sqlQuery .= "select " . $arg;
         return $this;
     }
 
@@ -49,19 +50,6 @@ class MySQLQueryBuilder implements QueryBuilder, SelectionQueryBuilder, Creation
     {
         $this->sqlQuery .= " where " . $arg;
         return $this;
-    }
-
-    public function build(): Query
-    {
-        $sql = "";
-        if ($this->createDirectory) {
-            $sql = "CREATE TABLE IF NOT EXISTS " . $this->tableName . "(";
-        }
-        foreach ($this->fields as $fieldName => $fieldType) {
-            $sql .= $fieldName . " " . $this->convertFieldType($fieldType) . ", ";
-        }
-        $sql = rtrim($sql, ", ") . ")";
-        return new MySQLQuery($this->pdo, $sql);
     }
 
     private function convertFieldType(string $fieldType): string
@@ -78,20 +66,85 @@ class MySQLQueryBuilder implements QueryBuilder, SelectionQueryBuilder, Creation
 
     public function createDirectory(string $directoryName): CreationQueryBuilder
     {
-        if (!$this->createDirectory) {
-            //$this->sqlQuery .= "CREATE TABLE ".$directoryName."(";
-            $this->tableName = $directoryName;
-            $this->createDirectory = true;
+        //$this->sqlQuery .= "CREATE TABLE ".$directoryName."(";
+        $this->tableName = $directoryName;
+        return $this;
+    }
+
+    public function withField(string $fieldName, string $fieldType, bool $pk = false): CreationQueryBuilder
+    {
+        $this->fields[$fieldName] = $fieldType;
+        if ($pk) {
+            $this->primaryKey[] = $fieldName;
+        }
+        //$this->sqlQuery .= $fieldName . " " . $fieldType . ", ";
+        return $this;
+    }
+
+    public function withFields(array $fields): CreationQueryBuilder
+    {
+        foreach ($fields as $field) {
+            if ($field instanceof EntityField) {
+                $this->withField($field->getName(), $field->getType(), $field->isPrimaryKey());
+            }
         }
         return $this;
     }
 
-    public function withField(string $fieldName, string $fieldType): QueryBuilder
+    public function save(string $tableName): SaveQueryBuilder
     {
-        if ($this->createDirectory) {
-            $this->fields[$fieldName] = $fieldType;
-            //$this->sqlQuery .= $fieldName . " " . $fieldType . ", ";
+        $this->tableName = $tableName;
+        return $this;
+    }
+
+    public function buildCreate(): Query
+    {
+        $sql = "CREATE TABLE IF NOT EXISTS " . $this->tableName . "(";
+
+        foreach ($this->fields as $fieldName => $fieldType) {
+            $sql .= $fieldName . " " . $this->convertFieldType($fieldType) . ", ";
         }
+        if (!empty($this->primaryKey)) {
+            $sql .= "PRIMARY KEY (";
+            foreach ($this->primaryKey as $pk) {
+                $sql .= $pk . ", ";
+            }
+            $sql = rtrim($sql, ", ") . ")";
+        }
+        $sql = rtrim($sql, ", ") . ")";
+        return new MySQLQuery($this->pdo, $sql);
+    }
+
+    public function buildSave(): Query
+    {
+        $sql = "INSERT INTO " . $this->tableName . " (";
+        foreach ($this->fields as $fieldName => $fieldType) {
+            $sql .= $fieldName . ", ";
+        }
+        $sql = rtrim($sql, ", ");
+        $sql .= ") VALUES(";
+        foreach ($this->values as $value) {
+            $sql .= "'" . $value . "'" . ", ";
+        }
+        $sql = rtrim($sql, ", ");
+        $sql .= ") ON DUPLICATE KEY UPDATE ";
+        foreach ($this->fields as $fieldName => $fieldType) {
+            $sql .= $fieldName . " = " . "'" . $this->values[$fieldName] . "'" . ", ";
+        }
+        $sql = rtrim($sql, ", ");
+        return new MySQLQuery($this->pdo, $sql);
+    }
+
+    public function buildSelect(): Query
+    {
+        // TODO: Implement buildSelect() method.
+        return new MySQLQuery($this->pdo, "");
+    }
+
+    public function withValue(EntityField $field, $value): SaveQueryBuilder
+    {
+        $this->fields[$field->getName()] = $field->getType();
+        $this->values[$field->getName()] = $value;
         return $this;
     }
 }
