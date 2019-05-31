@@ -2,7 +2,6 @@
 
 namespace PPHI;
 
-use PPHI\Connector\ConnectionManager;
 use PPHI\DataSource\DataSourceManager;
 use PPHI\Entity\EntityManager;
 use PPHI\Exception\DirectoryNotFoundException;
@@ -35,10 +34,6 @@ class PPHI
      */
     private $dataSourcesManager;
 
-    /**
-     * @var ConnectionManager
-     */
-    private $connectionManager;
 
     /**
      * @var EntityManager
@@ -55,20 +50,13 @@ class PPHI
     public function preInit(): void
     {
         $this->dataSourcesManager = new DataSourceManager(self::DATA_SOURCES_PATH);
-        $this->connectionManager = new ConnectionManager();
         $this->entityManager = new EntityManager(self::ENTITY_DIRECTORY_PATH, self::ENTITY_NAMESPACE);
     }
 
-    /**
-     * Load data into manager
-     *
-     * @param InitListener $listener
-     */
     public function init(InitListener $listener): void
     {
         try {
             $this->dataSourcesManager->init();
-            $this->connectionManager->init($this->dataSourcesManager);
             $this->entityManager->init();
         } catch (WrongFileFormatException $e) {
             $listener->onException($e);
@@ -80,14 +68,12 @@ class PPHI
     {
         try {
             $this->dataSourcesManager->load();
-            $this->connectionManager->load();
             $this->entityManager->load();
         } catch (Exception\UnknownDataSourcesTypeException | EntityFormatException $e) {
             $listener->onException($e);
         }
         $listener->onComplete();
     }
-
     /**
      * Start PPHI
      */

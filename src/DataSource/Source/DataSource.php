@@ -2,14 +2,8 @@
 
 namespace PPHI\DataSource\Source;
 
-/**
- * Class DataSource
- * @package PPHI\DataSource\Source
- *
- * @license GPL 3.0 or later
- * @author Alexis DINQUER <adinquer@yahoo.com>
- * @since 0.1.0-alpha First time this was introduced
- */
+use PPHI\Connector\Connector;
+
 abstract class DataSource
 {
     /**
@@ -18,11 +12,10 @@ abstract class DataSource
     private $id;
 
     /**
-     * DataSource constructor.
-     *
-     * @since 0.1.0-a First time it was introduced
-     * @api This method will not change until major release
+     * @var Connector
      */
+    private $connector = null;
+
     protected function __construct()
     {
         $this->id = uniqid("ds_");
@@ -32,9 +25,6 @@ abstract class DataSource
      * Setup the data source
      *
      * @param array $str YAML Configuration
-     *
-     * @since 0.1.0-a First time it was introduced
-     * @api This method will not change until major release
      */
     abstract public function setUp(array $str): void;
 
@@ -42,22 +32,37 @@ abstract class DataSource
      * Get the data source type
      *
      * @return string Data source type
-     *
-     * @since 0.1.0-a First time it was introduced
-     * @api This method will not change until major release
      */
     abstract public function getType(): string;
+
+    abstract public function setUpConnector(): void;
 
     /**
      * Gets the dataSource identifier
      *
      * @return string
-     *
-     * @since 0.1.0-a First time it was introduced
-     * @api This method will not change until major release
      */
     public function getId(): string
     {
         return $this->id;
+    }
+
+    /**
+     * @return Connector
+     */
+    public function getConnector(): Connector
+    {
+        if ($this->connector === null || !$this->connector->isConnected()) {
+            $this->setUpConnector();
+        }
+        return $this->connector;
+    }
+
+    /**
+     * @param Connector $connector
+     */
+    protected function setConnector(Connector $connector): void
+    {
+        $this->connector = $connector;
     }
 }
