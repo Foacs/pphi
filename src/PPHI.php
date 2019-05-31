@@ -9,7 +9,8 @@ use PPHI\Exception\DirectoryNotFoundException;
 use PPHI\Exception\entity\EntityFormatException;
 use PPHI\Exception\WrongFileFormatException;
 use PPHI\Listener\InitListener;
-use PPHI\Listener\PreInitListener;
+use PPHI\Listener\LoadListener;
+use PPHI\Utils\Singleton;
 
 /**
  * Class PPHI
@@ -22,6 +23,7 @@ use PPHI\Listener\PreInitListener;
  */
 class PPHI
 {
+    use Singleton;
     const VERSION = "0.1.0";
 
     const DATA_SOURCES_PATH = "pphi/datasources";
@@ -44,13 +46,13 @@ class PPHI
     private $entityManager;
 
     /**
-     * PPHI constructor.
-     * Create manager
+     * Initialise manager
+     * Load file for manager
      *
      * @throws DirectoryNotFoundException
      * @throws Exception\datasource\DataSourceDirectoryNotFoundException
      */
-    public function __construct()
+    public function preInit(): void
     {
         $this->dataSourcesManager = new DataSourceManager(self::DATA_SOURCES_PATH);
         $this->connectionManager = new ConnectionManager();
@@ -58,12 +60,11 @@ class PPHI
     }
 
     /**
-     * Initialise manager
-     * Load file for manager
+     * Load data into manager
      *
-     * @param PreInitListener $listener
+     * @param InitListener $listener
      */
-    public function preInit(PreInitListener $listener): void
+    public function init(InitListener $listener): void
     {
         try {
             $this->dataSourcesManager->init();
@@ -75,12 +76,7 @@ class PPHI
         $listener->onComplete();
     }
 
-    /**
-     * Load data into manager
-     *
-     * @param InitListener $listener
-     */
-    public function init(InitListener $listener): void
+    public function load(LoadListener $listener): void
     {
         try {
             $this->dataSourcesManager->load();
@@ -94,19 +90,9 @@ class PPHI
 
     /**
      * Start PPHI
-     * @throws Exception\entity\EntityFormatException
      */
     public function start(): void
     {
-
-        $this->entityManager->start($this->connectionManager);
-
-        echo "<pre>";
-        print_r($this->entityManager->getLoadedElements());
-        print_r($this->connectionManager->getConnections());
-        echo "<h1>Error</h1>";
-        print_r($this->connectionManager->getAndFlushErrors());
-        echo "</pre>";
     }
 
     /**
@@ -115,5 +101,13 @@ class PPHI
     public function getEntityManager(): EntityManager
     {
         return $this->entityManager;
+    }
+
+    /**
+     * @return DataSourceManager
+     */
+    public function getDataSourcesManager(): DataSourceManager
+    {
+        return $this->dataSourcesManager;
     }
 }

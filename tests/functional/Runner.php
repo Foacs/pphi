@@ -2,10 +2,11 @@
 
 namespace PPHI\FunctionalTest;
 
+use PPHI\FunctionalTest\dao\BrandDao;
 use PPHI\FunctionalTest\entities\Brand;
 use PPHI\FunctionalTest\entities\Car;
 use PPHI\FunctionalTest\listener\InitListener;
-use PPHI\FunctionalTest\listener\PreInitListener;
+use PPHI\FunctionalTest\listener\LoadListener;
 use PPHI\PPHI;
 
 class Runner
@@ -29,9 +30,9 @@ class Runner
     public function __construct()
     {
 
-        $this->pphi = new PPHI();
-        $this->pphi->preInit(new PreInitListener());
+        $this->pphi = PPHI::getInstance();
         $this->pphi->init(new InitListener());
+        $this->pphi->load(new LoadListener());
         $this->pphi->start();
 
         $this->car = new Car();
@@ -39,6 +40,9 @@ class Runner
         $this->car->getBrand()->setName("renault");
         $this->car->setColor("rouge");
 
-        $this->pphi->getEntityManager()->save($this->car);
+        $dao = new BrandDao();
+        $dao->save($this->car->getBrand());
+
+        //$this->pphi->getEntityManager()->save($this->car);
     }
 }

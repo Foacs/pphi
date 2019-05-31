@@ -8,12 +8,10 @@
 
 namespace PPHI\Entity;
 
-use PPHI\Connector\ConnectionManager;
-use PPHI\Connector\Connector;
-use PPHI\DataSource\DataSourceManager;
 use PPHI\Exception\DirectoryNotFoundException;
 use PPHI\Exception\entity\EntityClassException;
 use PPHI\Exception\entity\EntityFormatException;
+use PPHI\PPHI;
 use PPHI\Utils\DirectoryLoader;
 
 /**
@@ -80,18 +78,33 @@ class EntityManager extends DirectoryLoader
         }
     }
 
+    /**
+     * @param $entity
+     *
+     * @return bool
+     * @throws EntityClassException
+     */
     public function save($entity): bool
     {
-        if ($entity) {
-            return false;
+        try {
+            $entityClass = new \ReflectionClass($entity);
+            if (array_key_exists($entityClass->getShortName(), $this->entities)) {
+                $entity = $this->entities[$entityClass->getShortName()];
+                foreach (PPHI::getInstance()->getDataSourcesManager()->getDataSources() as $dataSource) {
+                    //Get connection
+                }
+            } else {
+                throw new EntityClassException("Impossible to save " . $entityClass->getName() .
+                    "! Should be a entity and stored in entities folder.");
+            }
+        } catch (\ReflectionException $e) {
+            throw new EntityClassException("An error occurs when resolving entity class", $e->getCode(), $e);
         }
         return false;
     }
 
     /**
      * Foreach loaded ReflectionClass apply checks
-     *
-     * @param DataSourceManager $dataSourceManager
      *
      * @throws EntityFormatException when |
      *  entity not instantiable |
@@ -124,30 +137,6 @@ class EntityManager extends DirectoryLoader
                             . $property->getName() . " in " . $entity->getName() . " must have a @var [type] element");
                     }
                     $this->entities[$entity->getShortName()][$property->getName()] = $type[1];
-                }
-            }
-        }
-        echo "<pre>";
-        var_dump($this->entities);
-        /*echo $entity->getName();
-        echo " has property ";
-        echo($property->getName());
-        echo " typed ";
-        echo($type[1]);*/
-        echo "</pre>";
-    }
-
-    public function start(ConnectionManager $connectionManager)
-    {
-        foreach ($connectionManager->getConnections() as $connection) {
-            if ($connection instanceof Connector) {
-                foreach ($this->entities as $entityName => $entity) {
-                    $qb = $connection->getQueryBuilder()
-                        ->createDirectory($entityName);
-                    foreach ($entity as $fieldName => $field) {
-                        $qb->withField($fieldName, $field);
-                    }
-                    $qb->build()->execute();
                 }
             }
         }

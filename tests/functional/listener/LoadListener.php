@@ -2,13 +2,13 @@
 /**
  * Created by PhpStorm.
  * User: dederobert
- * Date: 21/05/19
- * Time: 18:18
+ * Date: 31/05/19
+ * Time: 13:50
  */
 
 namespace PPHI\FunctionalTest\listener;
 
-class PreInitListener implements \PPHI\Listener\PreInitListener
+class LoadListener implements \PPHI\Listener\LoadListener
 {
 
     public function onException(\Exception $e)

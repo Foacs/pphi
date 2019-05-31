@@ -2,12 +2,12 @@
 /**
  * Created by PhpStorm.
  * User: dederobert
- * Date: 21/05/19
- * Time: 18:02
+ * Date: 31/05/19
+ * Time: 13:49
  */
 
 namespace PPHI\Listener;
 
-interface PreInitListener extends SequenceListener
+interface LoadListener extends SequenceListener
 {
 }
