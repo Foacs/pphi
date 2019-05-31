@@ -2,12 +2,19 @@
 
 namespace PPHI\DataSource\Source;
 
+use PPHI\Connector\Connector;
+
 abstract class DataSource
 {
     /**
      * @var string
      */
     private $id;
+
+    /**
+     * @var Connector
+     */
+    private $connector = null;
 
     protected function __construct()
     {
@@ -28,6 +35,8 @@ abstract class DataSource
      */
     abstract public function getType(): string;
 
+    abstract public function setUpConnector(): void;
+
     /**
      * Gets the dataSource identifier
      *
@@ -36,5 +45,24 @@ abstract class DataSource
     public function getId(): string
     {
         return $this->id;
+    }
+
+    /**
+     * @return Connector
+     */
+    public function getConnector(): Connector
+    {
+        if ($this->connector === null || !$this->connector->isConnected()) {
+            $this->setUpConnector();
+        }
+        return $this->connector;
+    }
+
+    /**
+     * @param Connector $connector
+     */
+    protected function setConnector(Connector $connector): void
+    {
+        $this->connector = $connector;
     }
 }
