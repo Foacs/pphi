@@ -8,8 +8,11 @@
 
 namespace PPHI\FunctionalTest\entities;
 
+use PPHI\Entity\Entity;
+
 class Wheel
 {
+    use Entity;
     /**
      * @var string
      */

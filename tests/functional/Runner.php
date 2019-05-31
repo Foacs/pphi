@@ -23,9 +23,7 @@ class Runner
 
     /**
      * Runner constructor.
-     * @throws \PPHI\Exception\DirectoryNotFoundException
-     * @throws \PPHI\Exception\datasource\DataSourceDirectoryNotFoundException
-     * @throws \PPHI\Exception\entity\EntityFormatException
+     * @throws \PPHI\Exception\entity\EntityClassException
      */
     public function __construct()
     {
@@ -33,11 +31,11 @@ class Runner
         $this->pphi = PPHI::getInstance();
         $this->pphi->init(new InitListener());
         $this->pphi->load(new LoadListener());
-        $this->pphi->start();
 
         $this->car = new Car();
         $this->car->setBrand(new Brand());
-        $this->car->getBrand()->setName("renault");
+        $this->car->getBrand()->setName("Renault");
+        $this->car->getBrand()->setId("5cf136d2000a7");
         $this->car->setColor("rouge");
 
         $dao = new BrandDao();

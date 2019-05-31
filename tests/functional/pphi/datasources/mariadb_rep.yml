@@ -1,5 +1,6 @@
 ---
 type: MySQL # Default value is MySQL
+ignored: true
 mysql:
   url: db
   port: 3306

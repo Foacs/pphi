@@ -3,6 +3,7 @@
 namespace PPHI\DataSource\Source;
 
 use PPHI\Connector\Database\MySQLConnector;
+use PPHI\Exception\Connector\ConnectionException;
 use PPHI\Exception\WrongMySQLDataSourcesConfigurationException;
 
 /**
@@ -171,13 +172,16 @@ class MySQLDataSource extends DataSource
         return "mysql";
     }
 
+    /**
+     * @throws ConnectionException
+     */
     public function setUpConnector(): void
     {
         $connector = new MySQLConnector();
         if ($connector->connect($this)) {
             $this->setConnector($connector);
         } else {
-            $this->setConnector(null);
+            throw new ConnectionException("Impossible to setUp connection", $connector->getError());
         }
     }
 }

@@ -64,13 +64,16 @@ class DataSourceManager extends DirectoryLoader
     public function load(): void
     {
         foreach ($this->getLoadedElements() as $dataSourceName => $dataSource) {
-            $dataSourceType = strtolower($dataSource['type']) ?? "mysql";
-            $ds = $this->processor->execute($dataSourceType);
-            if (!is_null($ds)) {
-                $ds->setUp($dataSource);
-                $this->dataSources[$dataSourceName] = $ds;
-            } else {
-                throw new UnknownDataSourcesTypeException("The data sources type " . $dataSourceType . " is unknown");
+            if (!($dataSource['ignored'] ?? false)) {
+                $dataSourceType = strtolower($dataSource['type']) ?? "mysql";
+                $ds = $this->processor->execute($dataSourceType);
+                if (!is_null($ds)) {
+                    $ds->setUp($dataSource);
+                    $this->dataSources[$dataSourceName] = $ds;
+                } else {
+                    throw new UnknownDataSourcesTypeException("The data sources type " . $dataSourceType .
+                        " is unknown");
+                }
             }
         }
     }
