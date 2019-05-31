@@ -8,6 +8,14 @@
 
 namespace PPHI\Connector;
 
+/**
+ * Class ConnectorError
+ * @package PPHI\Connector
+ *
+ * @license GPL 3.0 or later
+ * @author Alexis DINQUER <adinquer@yahoo.com>
+ * @since 0.1.0-alpha First time this was introduced
+ */
 class ConnectorError
 {
 
@@ -33,10 +41,14 @@ class ConnectorError
 
     /**
      * ConnectorError constructor.
+     *
      * @param string $className The class name which call the error (use get_class($this))
      * @param string $message The error message
      * @param int $code The code
-     * @param \Exception|null $exception
+     * @param \Exception|null $exception The exception which create this error
+     *
+     * @since 0.1.0-a First time it was introduced
+     * @api This method will not change until major release
      */
     public function __construct(string $className, string $message, int $code = 0, ?\Exception $exception = null)
     {
@@ -53,6 +65,9 @@ class ConnectorError
      * Gets the error message
      *
      * @return string Error message
+     *
+     * @since 0.1.0-a First time it was introduced
+     * @api This method will not change until major release
      */
     public function getMessage(): string
     {
@@ -63,6 +78,9 @@ class ConnectorError
      * Sets the error message
      *
      * @param string $message The error message
+     *
+     * @since 0.1.0-a First time it was introduced
+     * @api This method will not change until major release
      */
     public function setMessage(string $message): void
     {
@@ -70,7 +88,12 @@ class ConnectorError
     }
 
     /**
-     * @return int
+     * Gets the error code
+     *
+     * @return int The error code
+     *
+     * @since 0.1.0-a First time it was introduced
+     * @api This method will not change until major release
      */
     public function getCode(): int
     {
@@ -78,7 +101,12 @@ class ConnectorError
     }
 
     /**
-     * @param int $code
+     * Sets the error code
+     *
+     * @param int $code The error code
+     *
+     * @since 0.1.0-a First time it was introduced
+     * @api This method will not change until major release
      */
     public function setCode(int $code): void
     {
@@ -86,7 +114,12 @@ class ConnectorError
     }
 
     /**
-     * @return \ReflectionClass
+     * Get the class which has created this error
+     *
+     * @return \ReflectionClass The caller class
+     *
+     * @since 0.1.0-a First time it was introduced
+     * @api This method will not change until major release
      */
     public function getClass(): \ReflectionClass
     {
@@ -94,7 +127,12 @@ class ConnectorError
     }
 
     /**
-     * @param \ReflectionClass $class
+     * Sets the class which create this error
+     *
+     * @param \ReflectionClass $class The caller class
+     *
+     * @since 0.1.0-a First time it was introduced
+     * @api This method will not change until major release
      */
     public function setClass(\ReflectionClass $class): void
     {
@@ -102,7 +140,12 @@ class ConnectorError
     }
 
     /**
-     * @return \Exception|null
+     * Gets the exception which create the error
+     *
+     * @return \Exception|null Exception which create the error
+     *
+     * @since 0.1.0-a First time it was introduced
+     * @api This method will not change until major release
      */
     public function getException(): ?\Exception
     {
@@ -110,7 +153,12 @@ class ConnectorError
     }
 
     /**
-     * @param \Exception|null $exception
+     * Sets the error which create the error
+     *
+     * @param \Exception|null $exception The error
+     *
+     * @since 0.1.0-a First time it was introduced
+     * @api This method will not change until major release
      */
     public function setException(?\Exception $exception): void
     {

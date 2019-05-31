@@ -1,13 +1,30 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: dederobert
+ * Date: 09/05/19
+ * Time: 18:41
+ */
 
 namespace PPHI\DataSource;
 
 use PPHI\DataSource\Expert\MySQLExpert;
 use PPHI\DataSource\Expert\Processor;
-use PPHI\DataSource\Source\DataSource;
+use PPHI\Exception\datasource\DataSourceDirectoryNotFoundException;
+use PPHI\Exception\DirectoryNotFoundException;
 use PPHI\Exception\UnknownDataSourcesTypeException;
+use PPHI\Utils\DirectoryLoader;
 
-class DataSourceManager
+/**
+ * Class DataSourceManager
+ * @package PPHI\DataSource
+ *
+ * @license GPL 3.0 or later
+ * @author Alexis DINQUER <adinquer@yahoo.com>
+ * @since 0.1.0-alpha First time this was introduced
+ * @since 0.2.0-alpha Extends DirectoryLoader
+ */
+class DataSourceManager extends DirectoryLoader
 {
     /**
      * @var Processor
@@ -21,9 +38,18 @@ class DataSourceManager
 
     /**
      * DataSourceManager constructor.
+     *
+     * @param string $path The path of data source directory
+     *
+     * @throws DataSourceDirectoryNotFoundException When the data source directory doesn't exists
      */
-    public function __construct()
+    public function __construct(string $path)
     {
+        try {
+            parent::__construct($path);
+        } catch (DirectoryNotFoundException $e) {
+            throw new DataSourceDirectoryNotFoundException("Data source directory not found", $e->getCode(), $e);
+        }
         $this->processor = new Processor();
         $this->processor->pushExpert(new MySQLExpert());
     }
@@ -32,11 +58,12 @@ class DataSourceManager
      * Load all data sources from config directory in $dataSources;
      *
      * @param array $dataSources Contains all data sources configuration
+     *
      * @throws UnknownDataSourcesTypeException when found an unknown data sources type
      */
-    public function load(array $dataSources): void
+    public function load(): void
     {
-        foreach ($dataSources as $dataSourceName => $dataSource) {
+        foreach ($this->getLoadedElements() as $dataSourceName => $dataSource) {
             $dataSourceType = strtolower($dataSource['type']) ?? "mysql";
             $ds = $this->processor->execute($dataSourceType);
             if (!is_null($ds)) {
@@ -49,8 +76,23 @@ class DataSourceManager
     }
 
     /**
-     * Get all loaded data sources
-     * @return DataSource[] An array of DataSource
+     * @inheritdoc
+     */
+    public function getValidExtension(): array
+    {
+        return ["yml", "yaml"];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function parse(string $fileName)
+    {
+        return \yaml_parse_file($fileName);
+    }
+
+    /**
+     * @return array
      */
     public function getDataSources(): array
     {

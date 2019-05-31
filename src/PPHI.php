@@ -3,19 +3,31 @@
 namespace PPHI;
 
 use PPHI\DataSource\DataSourceManager;
-use PPHI\Exception\ConfigNotFoundException;
+use PPHI\Entity\EntityManager;
+use PPHI\Exception\DirectoryNotFoundException;
+use PPHI\Exception\entity\EntityFormatException;
 use PPHI\Exception\WrongFileFormatException;
+use PPHI\Listener\InitListener;
+use PPHI\Listener\LoadListener;
+use PPHI\Utils\Singleton;
 
+/**
+ * Class PPHI
+ * @package PPHI
+ *
+ * @license GPL 3.0 or later
+ * @author Alexis DINQUER <adinquer@yahoo.com>
+ * @since 0.1.0-alpha First time this was introduced
+ * @since 0.2.0-alpha New sequence
+ */
 class PPHI
 {
-    const VERSION = "1.0-a1";
+    use Singleton;
+    const VERSION = "0.1.0";
 
     const DATA_SOURCES_PATH = "pphi/datasources";
-
-    /**
-     * @var array
-     */
-    private $dataSources = array();
+    const ENTITY_DIRECTORY_PATH = "entities";
+    const ENTITY_NAMESPACE = "PPHI\\FunctionalTest\\entities\\";
 
     /**
      * @var DataSourceManager
@@ -24,16 +36,38 @@ class PPHI
 
 
     /**
-     * PPHI constructor.
-     * Load all dataSources found in pphi/datasources directory
-     *
-     * @throws ConfigNotFoundException when directory pphi/datasources is not found
-     * @throws WrongFileFormatException when dataSources directory contains not YAML files
-     * @throws Exception\UnknownDataSourcesTypeException when a data sources type is unknown
+     * @var EntityManager
      */
-    public function __construct()
+    private $entityManager;
+
+    /**
+     * Initialise manager
+     * Load file for manager
+     *
+     * @throws DirectoryNotFoundException
+     * @throws Exception\datasource\DataSourceDirectoryNotFoundException
+     */
+    public function preInit(): void
     {
+        $this->dataSourcesManager = new DataSourceManager(self::DATA_SOURCES_PATH);
+        $this->connectionManager = new ConnectionManager();
+        $this->entityManager = new EntityManager(self::ENTITY_DIRECTORY_PATH, self::ENTITY_NAMESPACE);
+    }
+
+    public function init(InitListener $listener): void
+    {
+        try {
+            $this->dataSourcesManager->init();
+            $this->connectionManager->init($this->dataSourcesManager);
+            $this->entityManager->init();
+        } catch (WrongFileFormatException $e) {
+            $listener->onException($e);
+        }
+        $listener->onComplete();
+    }
+
         $this->dataSourcesManager = new DataSourceManager();
+        $this->connectionManager = new ConnectionManager();
         $dataSourcesDir = dir(self::DATA_SOURCES_PATH);
         if (is_null($dataSourcesDir) || $dataSourcesDir === false) {
             throw new ConfigNotFoundException("Data sources (pphi/datasources) config directory not found");
@@ -50,10 +84,47 @@ class PPHI
             }
         }
         $this->dataSourcesManager->load($this->dataSources);
-        foreach ($this->dataSourcesManager->getDataSources() as $ds) {
-            echo "<pre>";
-            var_dump($ds->getConnector());
-            echo "</pre>";
+        $this->connectionManager->addConnectionFromDataSourceArray($this->dataSourcesManager->getDataSources());
+
+        echo "<pre>";
+        print_r($this->connectionManager->getConnections());
+        echo "<h1>Error</h1>";
+        print_r($this->connectionManager->getAndFlushErrors());
+        echo "</pre>";
+    }
+
+    public function load(LoadListener $listener): void
+    {
+        try {
+            $this->dataSourcesManager->load();
+            $this->connectionManager->load();
+            $this->entityManager->load();
+        } catch (Exception\UnknownDataSourcesTypeException | EntityFormatException $e) {
+            $listener->onException($e);
         }
+        $listener->onComplete();
+    }
+    /**
+     * Start PPHI
+     */
+    public function start(): void
+    {
+    }
+
+    /**
+     * @return EntityManager
+     */
+    public function getEntityManager(): EntityManager
+    {
+        return $this->entityManager;
+    }
+
+    /**
+     * @return DataSourceManager
+     */
+    public function getDataSourcesManager(): DataSourceManager
+    {
+        return $this->dataSourcesManager;
     }
 }
+

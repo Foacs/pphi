@@ -6,10 +6,15 @@
  * Time: 18:39
  */
 
-namespace PPHI\FonctionalTest\entities;
+namespace PPHI\FunctionalTest\entities;
 
+/**
+ * Class Car
+ * @package PPHI\FonctionalTest\entities
+ */
 class Car
 {
+
 
     /**
      * @var string
@@ -24,7 +29,7 @@ class Car
     /**
      * @return mixed
      */
-    public function getBrand()
+    public function getBrand(): Brand
     {
         return $this->brand;
     }
@@ -32,7 +37,7 @@ class Car
     /**
      * @param mixed $brand
      */
-    public function setBrand($brand): void
+    public function setBrand(Brand $brand): void
     {
         $this->brand = $brand;
     }
@@ -40,7 +45,7 @@ class Car
     /**
      * @return mixed
      */
-    public function getColor()
+    public function getColor(): string
     {
         return $this->color;
     }
@@ -48,7 +53,7 @@ class Car
     /**
      * @param mixed $color
      */
-    public function setColor($color): void
+    public function setColor(string $color): void
     {
         $this->color = $color;
     }
