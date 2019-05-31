@@ -50,7 +50,6 @@ class PPHI
     public function preInit(): void
     {
         $this->dataSourcesManager = new DataSourceManager(self::DATA_SOURCES_PATH);
-        $this->connectionManager = new ConnectionManager();
         $this->entityManager = new EntityManager(self::ENTITY_DIRECTORY_PATH, self::ENTITY_NAMESPACE);
     }
 
@@ -58,7 +57,6 @@ class PPHI
     {
         try {
             $this->dataSourcesManager->init();
-            $this->connectionManager->init($this->dataSourcesManager);
             $this->entityManager->init();
         } catch (WrongFileFormatException $e) {
             $listener->onException($e);
@@ -66,38 +64,10 @@ class PPHI
         $listener->onComplete();
     }
 
-        $this->dataSourcesManager = new DataSourceManager();
-        $this->connectionManager = new ConnectionManager();
-        $dataSourcesDir = dir(self::DATA_SOURCES_PATH);
-        if (is_null($dataSourcesDir) || $dataSourcesDir === false) {
-            throw new ConfigNotFoundException("Data sources (pphi/datasources) config directory not found");
-        }
-        while (false !== ($entry = $dataSourcesDir->read())) {
-            if (strcmp($entry, ".") != 0 && strcmp($entry, "..") != 0) {
-                $filename = self::DATA_SOURCES_PATH . DIRECTORY_SEPARATOR . $entry;
-                $extension = pathinfo($filename)['extension'];
-                if (strcmp($extension, 'yml') === 0 || strcmp($extension, "yaml") === 0) {
-                    $this->dataSources[substr($entry, 0, -(strlen($extension) + 1))] = \yaml_parse_file($filename);
-                } else {
-                    throw new WrongFileFormatException("data sources config file must be yaml file");
-                }
-            }
-        }
-        $this->dataSourcesManager->load($this->dataSources);
-        $this->connectionManager->addConnectionFromDataSourceArray($this->dataSourcesManager->getDataSources());
-
-        echo "<pre>";
-        print_r($this->connectionManager->getConnections());
-        echo "<h1>Error</h1>";
-        print_r($this->connectionManager->getAndFlushErrors());
-        echo "</pre>";
-    }
-
     public function load(LoadListener $listener): void
     {
         try {
             $this->dataSourcesManager->load();
-            $this->connectionManager->load();
             $this->entityManager->load();
         } catch (Exception\UnknownDataSourcesTypeException | EntityFormatException $e) {
             $listener->onException($e);
@@ -127,4 +97,3 @@ class PPHI
         return $this->dataSourcesManager;
     }
 }
-
