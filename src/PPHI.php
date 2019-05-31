@@ -6,7 +6,10 @@ use PPHI\Connector\ConnectionManager;
 use PPHI\DataSource\DataSourceManager;
 use PPHI\Entity\EntityManager;
 use PPHI\Exception\DirectoryNotFoundException;
+use PPHI\Exception\entity\EntityFormatException;
 use PPHI\Exception\WrongFileFormatException;
+use PPHI\Listener\InitListener;
+use PPHI\Listener\PreInitListener;
 
 /**
  * Class PPHI
@@ -58,31 +61,46 @@ class PPHI
      * Initialise manager
      * Load file for manager
      *
-     * @throws WrongFileFormatException when try to load a file in wrong format
+     * @param PreInitListener $listener
      */
-    public function preInit(): void
+    public function preInit(PreInitListener $listener): void
     {
-        $this->dataSourcesManager->init();
-        $this->entityManager->init();
+        try {
+            $this->dataSourcesManager->init();
+            $this->connectionManager->init($this->dataSourcesManager);
+            $this->entityManager->init();
+        } catch (WrongFileFormatException $e) {
+            $listener->onException($e);
+        }
+        $listener->onComplete();
     }
 
     /**
      * Load data into manager
      *
-     * @throws Exception\UnknownDataSourcesTypeException when try to load data source with unknown type
+     * @param InitListener $listener
      */
-    public function init(): void
+    public function init(InitListener $listener): void
     {
-        $this->dataSourcesManager->load();
-        $this->connectionManager->addConnectionFromDataSourceArray($this->dataSourcesManager->getDataSources());
+        try {
+            $this->dataSourcesManager->load();
+            $this->connectionManager->load();
+            $this->entityManager->load();
+        } catch (Exception\UnknownDataSourcesTypeException | EntityFormatException $e) {
+            $listener->onException($e);
+        }
+        $listener->onComplete();
     }
 
     /**
      * Start PPHI
+     * @throws Exception\entity\EntityFormatException
      */
     public function start(): void
     {
-        $this->entityManager->load();
+
+        $this->entityManager->start($this->connectionManager);
+
         echo "<pre>";
         print_r($this->entityManager->getLoadedElements());
         print_r($this->connectionManager->getConnections());

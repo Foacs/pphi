@@ -60,7 +60,7 @@ abstract class DirectoryLoader
      * @api This method will not change until a major release.
      * @since 0.2.0 First time this was introduced.
      */
-    public function init()
+    public function init(): void
     {
         while (false !== ($entry = $this->directory->read())) {
             if (strcmp($entry, ".") != 0 && strcmp($entry, "..") != 0) {

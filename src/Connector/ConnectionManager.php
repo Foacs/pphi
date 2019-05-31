@@ -9,6 +9,7 @@
 namespace PPHI\Connector;
 
 use PPHI\Connector\Database\MySQLConnector;
+use PPHI\DataSource\DataSourceManager;
 use PPHI\DataSource\Source\DataSource;
 use PPHI\Exception\UnknownDataSourcesTypeException;
 
@@ -25,6 +26,7 @@ use PPHI\Exception\UnknownDataSourcesTypeException;
 class ConnectionManager
 {
 
+
     /**
      * @var array
      */
@@ -34,6 +36,11 @@ class ConnectionManager
      * @var array
      */
     private $errors = array();
+
+    /**
+     * @var DataSourceManager
+     */
+    private $dataSourceManager;
 
     /**
      * Add connection for a data source
@@ -108,5 +115,15 @@ class ConnectionManager
         $tmp = $this->errors;
         $this->errors = [];
         return $tmp;
+    }
+
+    public function init(DataSourceManager $dataSourcesManager)
+    {
+        $this->dataSourceManager = $dataSourcesManager;
+    }
+
+    public function load()
+    {
+        $this->addConnectionFromDataSourceArray($this->dataSourceManager->getDataSources());
     }
 }

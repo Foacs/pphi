@@ -8,6 +8,7 @@
 
 namespace PPHI\Connector;
 
+use PPHI\Connector\Query\Builder\QueryBuilder;
 use PPHI\DataSource\Source\DataSource;
 
 /**
@@ -58,4 +59,6 @@ interface Connector
      * @api This method will not change until major release
      */
     public function getError(): ?ConnectorError;
+
+    public function getQueryBuilder(): QueryBuilder;
 }

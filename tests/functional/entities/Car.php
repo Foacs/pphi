@@ -17,7 +17,7 @@ class Car
 
 
     /**
-     * @var Brand
+     * @var string
      */
     private $brand;
 

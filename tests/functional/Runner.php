@@ -4,6 +4,8 @@ namespace PPHI\FunctionalTest;
 
 use PPHI\FunctionalTest\entities\Brand;
 use PPHI\FunctionalTest\entities\Car;
+use PPHI\FunctionalTest\listener\InitListener;
+use PPHI\FunctionalTest\listener\PreInitListener;
 use PPHI\PPHI;
 
 class Runner
@@ -21,16 +23,15 @@ class Runner
     /**
      * Runner constructor.
      * @throws \PPHI\Exception\DirectoryNotFoundException
-     * @throws \PPHI\Exception\UnknownDataSourcesTypeException
-     * @throws \PPHI\Exception\WrongFileFormatException
      * @throws \PPHI\Exception\datasource\DataSourceDirectoryNotFoundException
+     * @throws \PPHI\Exception\entity\EntityFormatException
      */
     public function __construct()
     {
 
         $this->pphi = new PPHI();
-        $this->pphi->preInit();
-        $this->pphi->init();
+        $this->pphi->preInit(new PreInitListener());
+        $this->pphi->init(new InitListener());
         $this->pphi->start();
 
         $this->car = new Car();
@@ -39,9 +40,5 @@ class Runner
         $this->car->setColor("rouge");
 
         $this->pphi->getEntityManager()->save($this->car);
-
-        echo "<pre>";
-        var_dump($this->car);
-        echo "</pre>";
     }
 }

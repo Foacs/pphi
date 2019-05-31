@@ -10,6 +10,8 @@ namespace PPHI\Connector\Database;
 
 use PPHI\Connector\Connector;
 use PPHI\Connector\ConnectorError;
+use PPHI\Connector\Query\Builder\MySQL\MySQLQueryBuilder;
+use PPHI\Connector\Query\Builder\QueryBuilder;
 use PPHI\DataSource\Source\DataSource;
 use PPHI\DataSource\Source\MySQLDataSource;
 
@@ -90,5 +92,10 @@ class MySQLConnector implements Connector
     public function getError(): ?ConnectorError
     {
         return $this->error;
+    }
+
+    public function getQueryBuilder(): QueryBuilder
+    {
+        return new MySQLQueryBuilder($this->pdo);
     }
 }
