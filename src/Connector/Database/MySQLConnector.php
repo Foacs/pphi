@@ -27,6 +27,11 @@ class MySQLConnector implements Connector
     private $error;
 
     /**
+     * @var bool
+     */
+    private $connected = false;
+
+    /**
      * Connect to the data source
      * @param DataSource $dataSource The data source
      * @return bool True if connect successfully
@@ -57,6 +62,7 @@ class MySQLConnector implements Connector
             );
             return false;
         }
+        $this->connected = true;
         return true;
     }
 
@@ -66,8 +72,7 @@ class MySQLConnector implements Connector
      */
     public function isConnected(): bool
     {
-        // TODO check connection
-        return false;
+        return $this->connected;
     }
 
     /**

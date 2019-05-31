@@ -2,6 +2,7 @@
 
 namespace PPHI\DataSource\Source;
 
+use PPHI\Connector\Database\MySQLConnector;
 use PPHI\Exception\WrongMySQLDataSourcesConfigurationException;
 
 class MySQLDataSource extends DataSource
@@ -139,5 +140,15 @@ class MySQLDataSource extends DataSource
     public function getType(): string
     {
         return "mysql";
+    }
+
+    public function setUpConnector(): void
+    {
+        $connector = new MySQLConnector();
+        if ($connector->connect($this)) {
+            $this->setConnector($connector);
+        } else {
+            $this->setConnector(null);
+        }
     }
 }
