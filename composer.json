@@ -1,13 +1,26 @@
 {
-  "name": "dederobert/pphi",
-  "description": "PHP Persistence Holder Interface",
-  "type": "library",
-  "license": "GPL-3.0-or-later",
-  "version": "1.0.0-alpha",
-  "authors": [
-    {
-      "name": "dederobert",
-      "email": "adinquer@yahoo.com"
+    "name": "foacs/pphi",
+    "description": "PHP Persistence Holder Interface",
+    "type": "library",
+    "license": "GPL-3.0-or-later",
+    "version": "0.1.0",
+    "authors": [
+        {
+            "name": "dederobert",
+            "email": "adinquer@yahoo.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": { 
+            "PPHI\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=7.2.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.1",
+        "php-mock/php-mock-phpunit": "^2.3",
     }
   ],
   "autoload": {
