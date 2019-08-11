@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<ruleset name="PPHI" namespace="PPHI\CS\Standar">
+    <file>./src/</file>
+    <file>./tests/</file>
+    <description>A custom coding standard</description>
+    <autoload>./vendor/autoload.php</autoload>
+
+    <rule ref="PSR1"/>
+    <rule ref="PSR2"/>
+    <rule ref="PSR12"/>
+
+    <rule ref="Internal.NoCodeFound">
+        <severity>0</severity>
+    </rule>
+</ruleset>
