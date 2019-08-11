@@ -8,8 +8,8 @@ before_script:
   - composer install --dev --no-interaction
   - pip install coverage --user
 script:
-  - mkdir -p build/logs
   - php vendor/bin/phpunit --colors --coverage-text --coverage-clover=coverage.xml
+  - ls
 after_success:  
   - bash <(curl -s https://codecov.io/bash)
   - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
