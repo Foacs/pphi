@@ -6,6 +6,7 @@ before_script:
   - printf "\n" | pecl install yaml
   - composer self-update
   - composer install --dev --no-interaction
+  - pip install coverage
 script:
   - mkdir -p build/logs
   - php vendor/bin/phpunit --colors --coverage-text --coverage-clover=coverage.xml
