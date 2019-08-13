@@ -7,19 +7,16 @@
         convertNoticesToExceptions="true"
         convertWarningsToExceptions="true"
 		processIsolation="false"
+		 verbose="true"
 		stopOnFailure="false">
 	<testsuites>
 		<testsuite name="PPHI Test suite">
-			<directory>./tests/</directory>
+			<directory>./tests/units/</directory>
 		</testsuite>
 	</testsuites>
 	<filter>
 	  	<whitelist processUncoveredFilesFromWhitelist="true">
 	    	<directory suffix=".php">./src/</directory>
-	    	<directory suffix=".php">./tests/</directory>
 	  	</whitelist>
 	</filter>
-	<logging>
-        	<log type="coverage-clover" target="clover.xml"/>
-    	</logging>
 </phpunit>

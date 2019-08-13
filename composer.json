@@ -2,7 +2,7 @@
     "name": "foacs/pphi",
     "description": "PHP Persistence Holder Interface",
     "type": "library",
-    "license": "GPL-3.0-or-later",
+    "license": "CECILL-C",
     "version": "0.1.0",
     "authors": [
         {
