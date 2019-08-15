@@ -39,6 +39,15 @@
 
 namespace PPHI\Exception;
 
+/**
+ * Class UnknownDataSourcesTypeException
+ * Throw when found an unknown data source type.
+ * @package PPHI\Exception
+ * @version 0.1.0
+ * @api
+ * @license CeCILL-C
+ * @author Foacs
+ */
 class UnknownDataSourcesTypeException extends \Exception
 {
 }

@@ -39,6 +39,21 @@
 
 namespace PPHI\Connector;
 
+use Exception;
+use ReflectionClass;
+use ReflectionException;
+
+/**
+ * Class ConnectorError
+ * Use to hold occurred error in connector.
+ * A Error have a message, a code and is linled to a class and an exception
+ *
+ * @package PPHI\Connector
+ * @version 0.1.0
+ * @api
+ * @license CeCILL-C
+ * @author Foacs
+ */
 class ConnectorError
 {
 
@@ -53,7 +68,7 @@ class ConnectorError
     private $code;
 
     /**
-     * @var \ReflectionClass
+     * @var ReflectionClass
      */
     private $class;
 
@@ -64,16 +79,16 @@ class ConnectorError
 
     /**
      * ConnectorError constructor.
-     * @param string $className The class name which call the error (use get_class($this))
+     * @param string $className The class name which call the error (use get_class($this)).
      * @param string $message The error message
      * @param int $code The code
-     * @param \Exception|null $exception
+     * @param Exception|null $exception
      */
-    public function __construct(string $className, string $message, int $code = 0, ?\Exception $exception = null)
+    public function __construct(string $className, string $message, int $code = 0, ?Exception $exception = null)
     {
         try {
-            $this->class = new \ReflectionClass($className);
-        } catch (\ReflectionException $ignored) {
+            $this->class = new ReflectionClass($className);
+        } catch (ReflectionException $ignored) {
         }
         $this->message = $message;
         $this->code = $code;
@@ -101,7 +116,9 @@ class ConnectorError
     }
 
     /**
-     * @return int
+     * Get the error code
+     *
+     * @return int The error code
      */
     public function getCode(): int
     {
@@ -109,7 +126,9 @@ class ConnectorError
     }
 
     /**
-     * @param int $code
+     * Set the error code
+     *
+     * @param int $code The error code
      */
     public function setCode(int $code): void
     {
@@ -117,33 +136,41 @@ class ConnectorError
     }
 
     /**
-     * @return \ReflectionClass
+     * Get the related class where the error appeared
+     *
+     * @return ReflectionClass The class where the error appeared
      */
-    public function getClass(): \ReflectionClass
+    public function getClass(): ReflectionClass
     {
         return $this->class;
     }
 
     /**
-     * @param \ReflectionClass $class
+     * Set the related class where the error appeared
+     *
+     * @param ReflectionClass $class The class where the error appeared
      */
-    public function setClass(\ReflectionClass $class): void
+    public function setClass(ReflectionClass $class): void
     {
         $this->class = $class;
     }
 
     /**
-     * @return \Exception|null
+     * Get the linked exception
+     *
+     * @return Exception|null The linked exception
      */
-    public function getException(): ?\Exception
+    public function getException(): ?Exception
     {
         return $this->exception;
     }
 
     /**
-     * @param \Exception|null $exception
+     * Set the linked exception
+     *
+     * @param Exception|null $exception The linked exception
      */
-    public function setException(?\Exception $exception): void
+    public function setException(?Exception $exception): void
     {
         $this->exception = $exception;
     }

@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <title>phpDox - PPHI\Connector\ConnectorError</title>
+    <link rel="stylesheet" type="text/css" href="../css/style.css" media="screen"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+  </head>
+  <body>
+    <nav class="topnav">
+      <ul>
+        <li>
+          <div class="logo"><span>/**</span>phpDox</div>
+        </li>
+        <li class="separator">
+          <a href="../index.xhtml">Overview</a>
+        </li>
+        <li class="separator">
+          <a href="../namespaces.xhtml">Namespaces</a>
+        </li>
+        <li>
+          <a href="../interfaces.xhtml">Interfaces</a>
+        </li>
+        <li>
+          <a href="../classes.xhtml">Classes</a>
+        </li>
+        <li class="separator">
+          <a href="../source/index.xhtml">Source</a>
+        </li>
+      </ul>
+    </nav>
+    <div id="mainstage">
+      <div class="box">
+        <ul class="breadcrumb">
+          <li>
+            <a href="../index.xhtml">Overview</a>
+          </li>
+          <li class="separator">
+            <a href="../classes.xhtml">Classes</a>
+          </li>
+          <li class="separator">
+            <a href="../classes.xhtml#PPHI_Connector">PPHI\Connector</a>
+          </li>
+          <li class="separator">ConnectorError</li>
+        </ul>
+      </div>
+      <nav class="box">
+        <ul>
+          <li>
+            <a href="#introduction">Introduction</a>
+          </li>
+          <li>
+            <a href="#synopsis">Synopsis</a>
+          </li>
+          <li>
+            <a href="#violations">Violations</a>
+          </li>
+          <li>
+            <a href="#members">Members</a>
+          </li>
+          <li>
+            <a href="#methods">Methods</a>
+          </li>
+          <li>
+            <a href="../source/Connector/ConnectorError.php.xhtml#line57">Source</a>
+          </li>
+        </ul>
+      </nav>
+      <section>
+        <h1 id="introduction"><small>PPHI\Connector\</small>ConnectorError</h1>
+        <h4>Class ConnectorError Use to hold occurred error in connector.</h4>
+        <p>A Error have a message, a code and is linled to a class and an exception</p>
+        <ul>
+          <li>Author: Foacs</li>
+          <li>License: CeCILL-C</li>
+        </ul>
+        <h2 id="synopsis">Synopsis</h2>
+        <div class="synopsis">class ConnectorError
+            {<br/><ul class="none"><li>// members</li><li>private  <a href="#members">$message</a>;
+                    </li><li>private  <a href="#members">$code</a>;
+                    </li><li>private <span title="ReflectionClass">ReflectionClass</span> <a href="#members">$class</a>;
+                    </li><li>private <span title="PPHI\Connector\?\Exception">Exception</span> <a href="#members">$exception</a>;
+                    </li></ul><ul class="none"><li>// methods</li><li>public void <a title="PPHI\Connector\ConnectorError" href="../classes/PPHI_Connector_ConnectorError/__construct.xhtml">__construct</a>()
+                    </li><li>public string <a title="PPHI\Connector\ConnectorError" href="../classes/PPHI_Connector_ConnectorError/getMessage.xhtml">getMessage</a>()
+                    </li><li>public void <a title="PPHI\Connector\ConnectorError" href="../classes/PPHI_Connector_ConnectorError/setMessage.xhtml">setMessage</a>()
+                    </li><li>public int <a title="PPHI\Connector\ConnectorError" href="../classes/PPHI_Connector_ConnectorError/getCode.xhtml">getCode</a>()
+                    </li><li>public void <a title="PPHI\Connector\ConnectorError" href="../classes/PPHI_Connector_ConnectorError/setCode.xhtml">setCode</a>()
+                    </li><li>public <span title="ReflectionClass">ReflectionClass</span> <a title="PPHI\Connector\ConnectorError" href="../classes/PPHI_Connector_ConnectorError/getClass.xhtml">getClass</a>()
+                    </li><li>public void <a title="PPHI\Connector\ConnectorError" href="../classes/PPHI_Connector_ConnectorError/setClass.xhtml">setClass</a>()
+                    </li><li>public ?<span title="Exception">Exception</span> <a title="PPHI\Connector\ConnectorError" href="../classes/PPHI_Connector_ConnectorError/getException.xhtml">getException</a>()
+                    </li><li>public void <a title="PPHI\Connector\ConnectorError" href="../classes/PPHI_Connector_ConnectorError/setException.xhtml">setException</a>()
+                    </li></ul>
+
+            }<br/></div>
+        <h2 id="violations">Violations</h2>
+        <div class="styled">
+          <h3>PHPMessDetector</h3>
+          <table class="styled">
+            <thead>
+              <tr>
+                <th>Line</th>
+                <th>Rule</th>
+                <th>Message</th>
+              </tr>
+            </thead>
+            <tr>
+              <td class="line">91 - 93</td>
+              <td>
+                <a href="https://phpmd.org/rules/design.html#emptycatchblock" target="_blank" title="Design Rules">EmptyCatchBlock</a>
+              </td>
+              <td>Avoid using empty try-catch blocks in __construct.</td>
+            </tr>
+          </table>
+          <h3>Checkstyle</h3>
+          <table class="styled">
+            <thead>
+              <tr>
+                <th>Line</th>
+                <th>Column</th>
+                <th>Severity</th>
+                <th>Message</th>
+              </tr>
+            </thead>
+            <tr>
+              <td class="line">91</td>
+              <td>48</td>
+              <td>
+                <span title="Squiz.WhiteSpace.ControlStructureSpacing.SpacingAfterOpen">error</span>
+              </td>
+              <td>Blank line found at start of control structure</td>
+            </tr>
+          </table>
+        </div>
+        <h2 id="members">Members</h2>
+        <div class="styled members">
+          <h4>private</h4>
+          <ul class="members">
+            <li id="class"><strong>$class</strong>
+                —
+                <a title="ReflectionClass" href="../classes/ReflectionClass.xhtml">ReflectionClass</a></li>
+            <li id="code"><strong>$code</strong>
+                —
+                integer</li>
+            <li id="exception"><strong>$exception</strong>
+                —
+                <a title="PPHI\Connector\?\Exception" href="../classes/PPHI_Connector_?_Exception.xhtml">PPHI\Connector\?\Exception</a></li>
+            <li id="message"><strong>$message</strong>
+                —
+                string</li>
+          </ul>
+        </div>
+        <h2 id="methods">Methods</h2>
+        <div class="styled">
+          <h4>public</h4>
+          <ul>
+            <li id="__construct"><a title="PPHI\Connector\ConnectorError" href="../classes/PPHI_Connector_ConnectorError/__construct.xhtml">__construct()</a>
+                — ConnectorError constructor.</li>
+            <li id="getClass"><a title="PPHI\Connector\ConnectorError" href="../classes/PPHI_Connector_ConnectorError/getClass.xhtml">getClass()</a>
+                — Get the related class where the error appeared</li>
+            <li id="getCode"><a title="PPHI\Connector\ConnectorError" href="../classes/PPHI_Connector_ConnectorError/getCode.xhtml">getCode()</a>
+                — Get the error code</li>
+            <li id="getException"><a title="PPHI\Connector\ConnectorError" href="../classes/PPHI_Connector_ConnectorError/getException.xhtml">getException()</a>
+                — Get the linked exception</li>
+            <li id="getMessage"><a title="PPHI\Connector\ConnectorError" href="../classes/PPHI_Connector_ConnectorError/getMessage.xhtml">getMessage()</a>
+                — Gets the error message</li>
+            <li id="setClass"><a title="PPHI\Connector\ConnectorError" href="../classes/PPHI_Connector_ConnectorError/setClass.xhtml">setClass()</a>
+                — Set the related class where the error appeared</li>
+            <li id="setCode"><a title="PPHI\Connector\ConnectorError" href="../classes/PPHI_Connector_ConnectorError/setCode.xhtml">setCode()</a>
+                — Set the error code</li>
+            <li id="setException"><a title="PPHI\Connector\ConnectorError" href="../classes/PPHI_Connector_ConnectorError/setException.xhtml">setException()</a>
+                — Set the linked exception</li>
+            <li id="setMessage"><a title="PPHI\Connector\ConnectorError" href="../classes/PPHI_Connector_ConnectorError/setMessage.xhtml">setMessage()</a>
+                — Sets the error message</li>
+          </ul>
+        </div>
+      </section>
+    </div>
+    <footer>
+      <span>Generated using phpDox 0.12.0 - Copyright (C) 2010 - 2019 by Arne Blankerts and Contributors</span>
+    </footer>
+  </body>
+</html>

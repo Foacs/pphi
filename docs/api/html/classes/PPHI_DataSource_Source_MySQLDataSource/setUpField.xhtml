@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <title>phpDox - PPHI\DataSource\Source\MySQLDataSource::setUpField</title>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css" media="screen"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+  </head>
+  <body>
+    <nav class="topnav">
+      <ul>
+        <li>
+          <div class="logo"><span>/**</span>phpDox</div>
+        </li>
+        <li class="separator">
+          <a href="../../index.xhtml">Overview</a>
+        </li>
+        <li class="separator">
+          <a href="../../namespaces.xhtml">Namespaces</a>
+        </li>
+        <li>
+          <a href="../../interfaces.xhtml">Interfaces</a>
+        </li>
+        <li>
+          <a href="../../classes.xhtml">Classes</a>
+        </li>
+        <li class="separator">
+          <a href="../../source/index.xhtml">Source</a>
+        </li>
+      </ul>
+    </nav>
+    <div id="mainstage">
+      <div class="box">
+        <ul class="breadcrumb">
+          <li>
+            <a href="../../index.xhtml">Overview</a>
+          </li>
+          <li class="separator">
+            <a href="../../classes.xhtml">Classes</a>
+          </li>
+          <li class="separator">
+            <a href="../../classes.xhtml#PPHI_DataSource_Source">PPHI\DataSource\Source</a>
+          </li>
+          <li class="separator">
+            <a title="PPHI\DataSource\Source\MySQLDataSource" href="../../classes/PPHI_DataSource_Source_MySQLDataSource.xhtml">MySQLDataSource</a>
+          </li>
+          <li class="separator">setUpField</li>
+        </ul>
+      </div>
+      <nav class="box">
+        <ul>
+          <li>
+            <a href="#introduction">Introduction</a>
+          </li>
+          <li>
+            <a href="#synopsis">Synopsis</a>
+          </li>
+          <li>
+            <a href="#parameter">Parameter</a>
+          </li>
+          <li>
+            <a href="#throws">Throws</a>
+          </li>
+          <li>
+            <a href="../../source/DataSource/Source/MySQLDataSource.php.xhtml#line131">Source</a>
+          </li>
+        </ul>
+      </nav>
+      <section>
+        <h1><small>PPHI\DataSource\Source\MySQLDataSource::</small>setUpField</h1>
+        <h4>Setup the given field</h4>
+        <p/>
+        <ul/>
+        <h2 id="signature">Signature</h2>
+        <div class="styled synopsis">
+          <code>private function setUpField(array
+        $config,
+            string
+        $fieldName,
+            [boolean
+        $optional = false,
+            [null
+        $default = NULL]] )
+            </code>
+        </div>
+        <h2 id="parameterlist">Parameters</h2>
+        <dl class="styled">
+          <dt><code>$config</code>
+                —
+                array</dt>
+          <dd>YAML config</dd>
+          <dt><code>$fieldName</code>
+                —
+                string</dt>
+          <dd>the field name</dd>
+          <dt><code>$optional</code>
+                —
+                boolean</dt>
+          <dd>Throw an error is not optional field not found<br/><br/><br/>      </dd>
+          <dt><code>$default</code>
+                —
+                null</dt>
+          <dd>Default value for optional field</dd>
+        </dl>
+        <h2 id="throws">Errors/Exceptions</h2>
+        <dl class="styled">
+          <dt>
+            <code>
+              <a title="PPHI\Exception\WrongMySQLDataSourcesConfigurationException" href="../../classes/PPHI_Exception_WrongMySQLDataSourcesConfigurationException.xhtml">WrongMySQLDataSourcesConfigurationException</a>
+            </code>
+          </dt>
+          <dd>when the field is missing or wrong type</dd>
+        </dl>
+        <h2 id="violations">Violations</h2>
+        <div class="styled">
+          <h3>PHPMessDetector</h3>
+          <table class="styled">
+            <thead>
+              <tr>
+                <th>Line</th>
+                <th>Rule</th>
+                <th>Message</th>
+              </tr>
+            </thead>
+            <tr>
+              <td class="line">131</td>
+              <td>
+                <a href="https://phpmd.org/rules/cleancode.html#booleanargumentflag" target="_blank" title="Clean Code Rules">BooleanArgumentFlag</a>
+              </td>
+              <td>The method setUpField has a boolean flag argument $optional, which is a certain sign of a Single Responsibility Principle violation.</td>
+            </tr>
+            <tr>
+              <td class="line">135 - 141</td>
+              <td>
+                <a href="https://phpmd.org/rules/cleancode.html#elseexpression" target="_blank" title="Clean Code Rules">ElseExpression</a>
+              </td>
+              <td>The method setUpField uses an else expression. Else clauses are basically not necessary and you can simplify the code by not using them.</td>
+            </tr>
+          </table>
+        </div>
+      </section>
+    </div>
+    <footer>
+      <span>Generated using phpDox 0.12.0 - Copyright (C) 2010 - 2019 by Arne Blankerts and Contributors</span>
+    </footer>
+  </body>
+</html>

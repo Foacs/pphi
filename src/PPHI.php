@@ -40,18 +40,28 @@ namespace PPHI;
 
 use PPHI\Connector\ConnectionManager;
 use PPHI\DataSource\DataSourceManager;
+use PPHI\DataSource\Expert\MySQLExpert;
+use PPHI\DataSource\Expert\Processor;
 use PPHI\Exception\ConfigNotFoundException;
 use PPHI\Exception\WrongFileFormatException;
 
-/**
+/*
  * ┌────┐┌────┐┌────┐┌────┐┌────┐
  * │ ┌──┘│ ┌┐ ││ ┌┐ ││ ┌──┘│ ┌──┘
  * │ └┐  │ ││ ││ └┘ ││ │   │ └──┐
  * │ ┌┘  │ ││ ││ ┌┐ ││ │   └──┐ │
  * │ │   │ └┘ ││ ││ ││ └──┐┌──┘ │
  * └─┘   └────┘└─┘└─┘└────┘└────┘
- * Class PPHI
+ */
+
+/**
+ * Main class for the PPHI project
+ *
  * @package PPHI
+ * @version 0.1.0
+ * @api
+ * @license CeCILL-C
+ * @author Foacs
  */
 class PPHI
 {
@@ -76,7 +86,7 @@ class PPHI
 
     /**
      * PPHI constructor.
-     * Load all dataSources found in pphi/datasources directory
+     * Load all dataSources found in {@link DATA_SOURCES_PATH} directory
      *
      * @throws ConfigNotFoundException when directory pphi/datasources is not found
      * @throws WrongFileFormatException when dataSources directory contains not YAML files
@@ -84,7 +94,7 @@ class PPHI
      */
     public function __construct()
     {
-        $this->dataSourcesManager = new DataSourceManager();
+        $this->dataSourcesManager = new DataSourceManager(new Processor(), [new MySQLExpert()]);
         $this->connectionManager = new ConnectionManager();
         $dataSourcesDir = dir(self::DATA_SOURCES_PATH);
         if (is_null($dataSourcesDir) || $dataSourcesDir === false) {
@@ -94,11 +104,10 @@ class PPHI
             if (strcmp($entry, ".") != 0 && strcmp($entry, "..") != 0) {
                 $filename = self::DATA_SOURCES_PATH . DIRECTORY_SEPARATOR . $entry;
                 $extension = pathinfo($filename)['extension'];
-                if (strcmp($extension, 'yml') === 0 || strcmp($extension, "yaml") === 0) {
-                    $this->dataSources[substr($entry, 0, -(strlen($extension) + 1))] = \yaml_parse_file($filename);
-                } else {
+                if (strcmp($extension, 'yml') !== 0 && strcmp($extension, "yaml") !== 0) {
                     throw new WrongFileFormatException("data sources config file must be yaml file");
                 }
+                $this->dataSources[substr($entry, 0, -(strlen($extension) + 1))] = \yaml_parse_file($filename);
             }
         }
         $this->dataSourcesManager->load($this->dataSources);

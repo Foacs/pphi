@@ -41,6 +41,16 @@ namespace PPHI\DataSource\Expert;
 
 use PPHI\DataSource\Source\DataSource;
 
+/**
+ * Class Processor
+ * Use to process a data source type, will use expert.
+ *
+ * @package PPHI\DataSource\Expert
+ * @version 0.1.0
+ * @api
+ * @license CeCILL-C
+ * @author Foacs
+ */
 class Processor
 {
 
@@ -49,6 +59,13 @@ class Processor
      */
     private $expert;
 
+    /**
+     * Try all expert in the chain and give the found result or null.
+     *
+     * @param string $str The string which will be processed
+     *
+     * @return DataSource|null The found data source
+     */
     public function execute(string $str): ?DataSource
     {
         if (!is_null($this->expert)) {
@@ -57,6 +74,11 @@ class Processor
         return null;
     }
 
+    /**
+     * Add an expert to the chain.
+     *
+     * @param Expert $expert The epxert to add.
+     */
     public function pushExpert(Expert $expert): void
     {
         $tmp = $this->expert;
@@ -65,7 +87,9 @@ class Processor
     }
 
     /**
-     * @return Expert
+     * Get the head of the chain.
+     *
+     * @return Expert The head of the chain.
      */
     public function getExpert(): ?Expert
     {

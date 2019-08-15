@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <title>phpDox - PPHI\DataSource\Source\MySQLDataSource</title>
+    <link rel="stylesheet" type="text/css" href="../css/style.css" media="screen"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+  </head>
+  <body>
+    <nav class="topnav">
+      <ul>
+        <li>
+          <div class="logo"><span>/**</span>phpDox</div>
+        </li>
+        <li class="separator">
+          <a href="../index.xhtml">Overview</a>
+        </li>
+        <li class="separator">
+          <a href="../namespaces.xhtml">Namespaces</a>
+        </li>
+        <li>
+          <a href="../interfaces.xhtml">Interfaces</a>
+        </li>
+        <li>
+          <a href="../classes.xhtml">Classes</a>
+        </li>
+        <li class="separator">
+          <a href="../source/index.xhtml">Source</a>
+        </li>
+      </ul>
+    </nav>
+    <div id="mainstage">
+      <div class="box">
+        <ul class="breadcrumb">
+          <li>
+            <a href="../index.xhtml">Overview</a>
+          </li>
+          <li class="separator">
+            <a href="../classes.xhtml">Classes</a>
+          </li>
+          <li class="separator">
+            <a href="../classes.xhtml#PPHI_DataSource_Source">PPHI\DataSource\Source</a>
+          </li>
+          <li class="separator">MySQLDataSource</li>
+        </ul>
+      </div>
+      <nav class="box">
+        <ul>
+          <li>
+            <a href="#introduction">Introduction</a>
+          </li>
+          <li>
+            <a href="#synopsis">Synopsis</a>
+          </li>
+          <li>
+            <a href="#hierarchy">Hierarchy</a>
+          </li>
+          <li>
+            <a href="#violations">Violations</a>
+          </li>
+          <li>
+            <a href="#members">Members</a>
+          </li>
+          <li>
+            <a href="#methods">Methods</a>
+          </li>
+          <li>
+            <a href="../source/DataSource/Source/MySQLDataSource.php.xhtml#line54">Source</a>
+          </li>
+        </ul>
+      </nav>
+      <section>
+        <h1 id="introduction"><small>PPHI\DataSource\Source\</small>MySQLDataSource</h1>
+        <h4>Class MySQLDataSource Represent a MySQL data source.</h4>
+        <p/>
+        <ul>
+          <li>Author: Foacs</li>
+          <li>License: CeCILL-C</li>
+        </ul>
+        <h2 id="synopsis">Synopsis</h2>
+        <div class="synopsis">class MySQLDataSource
+                extends <a title="PPHI\DataSource\Source\DataSource" href="../classes/PPHI_DataSource_Source_DataSource.xhtml">DataSource</a>
+            {<br/><ul class="none"><li>// members</li><li>private  <a href="#members">$dataSourceName</a>;
+                    </li><li>private  <a href="#members">$url</a>;
+                    </li><li>private  <a href="#members">$port</a>;
+                    </li><li>private  <a href="#members">$username</a>;
+                    </li><li>private  <a href="#members">$password</a>;
+                    </li><li>private  <a href="#members">$database</a>;
+                    </li></ul><ul class="none"><li>// methods</li><li>public void <a title="PPHI\DataSource\Source\MySQLDataSource" href="../classes/PPHI_DataSource_Source_MySQLDataSource/__construct.xhtml">__construct</a>()
+                    </li><li>public void <a title="PPHI\DataSource\Source\MySQLDataSource" href="../classes/PPHI_DataSource_Source_MySQLDataSource/setUp.xhtml">setUp</a>()
+                    </li><li>private void <a title="PPHI\DataSource\Source\MySQLDataSource" href="../classes/PPHI_DataSource_Source_MySQLDataSource/setUpField.xhtml">setUpField</a>()
+                    </li><li>public string <a title="PPHI\DataSource\Source\MySQLDataSource" href="../classes/PPHI_DataSource_Source_MySQLDataSource/getUsername.xhtml">getUsername</a>()
+                    </li><li>public string <a title="PPHI\DataSource\Source\MySQLDataSource" href="../classes/PPHI_DataSource_Source_MySQLDataSource/getPassword.xhtml">getPassword</a>()
+                    </li><li>public int <a title="PPHI\DataSource\Source\MySQLDataSource" href="../classes/PPHI_DataSource_Source_MySQLDataSource/getPort.xhtml">getPort</a>()
+                    </li><li>public string <a title="PPHI\DataSource\Source\MySQLDataSource" href="../classes/PPHI_DataSource_Source_MySQLDataSource/getUrl.xhtml">getUrl</a>()
+                    </li><li>public string <a title="PPHI\DataSource\Source\MySQLDataSource" href="../classes/PPHI_DataSource_Source_MySQLDataSource/getDatabase.xhtml">getDatabase</a>()
+                    </li><li>public string <a title="PPHI\DataSource\Source\MySQLDataSource" href="../classes/PPHI_DataSource_Source_MySQLDataSource/getType.xhtml">getType</a>()
+                    </li></ul><ul class="none"><li>// Inherited methods from <span title="PPHI\DataSource\Source\DataSource">DataSource</span></li><li>protected void <a title="PPHI\DataSource\Source\DataSource" href="../classes/PPHI_DataSource_Source_DataSource/__construct.xhtml">__construct</a>()
+                        </li><li>public abstract void <a title="PPHI\DataSource\Source\DataSource" href="../classes/PPHI_DataSource_Source_DataSource/setUp.xhtml">setUp</a>()
+                        </li><li>public abstract string <a title="PPHI\DataSource\Source\DataSource" href="../classes/PPHI_DataSource_Source_DataSource/getType.xhtml">getType</a>()
+                        </li><li>public string <a title="PPHI\DataSource\Source\DataSource" href="../classes/PPHI_DataSource_Source_DataSource/getIdentifier.xhtml">getIdentifier</a>()
+                        </li></ul>
+
+            }<br/></div>
+        <h2 id="hierarchy">Hierarchy</h2>
+        <div class="styled">
+          <h4>Extends</h4>
+          <ul>
+            <li>
+              <a title="PPHI\DataSource\Source\DataSource" href="../classes/PPHI_DataSource_Source_DataSource.xhtml">PPHI\DataSource\Source\DataSource</a>
+            </li>
+          </ul>
+        </div>
+        <h2 id="violations">Violations</h2>
+        <div class="styled">
+          <h3>PHPMessDetector</h3>
+          <table class="styled">
+            <thead>
+              <tr>
+                <th>Line</th>
+                <th>Rule</th>
+                <th>Message</th>
+              </tr>
+            </thead>
+            <tr>
+              <td class="line">131</td>
+              <td>
+                <a href="https://phpmd.org/rules/cleancode.html#booleanargumentflag" target="_blank" title="Clean Code Rules">BooleanArgumentFlag</a>
+              </td>
+              <td>The method setUpField has a boolean flag argument $optional, which is a certain sign of a Single Responsibility Principle violation.</td>
+            </tr>
+            <tr>
+              <td class="line">135 - 141</td>
+              <td>
+                <a href="https://phpmd.org/rules/cleancode.html#elseexpression" target="_blank" title="Clean Code Rules">ElseExpression</a>
+              </td>
+              <td>The method setUpField uses an else expression. Else clauses are basically not necessary and you can simplify the code by not using them.</td>
+            </tr>
+          </table>
+        </div>
+        <h2 id="members">Members</h2>
+        <div class="styled members">
+          <h4>private</h4>
+          <ul class="members">
+            <li id="dataSourceName">
+              <strong>$dataSourceName</strong>
+            </li>
+            <li id="database"><strong>$database</strong>
+                —
+                string<br/><span class="indent">MySQL Database name</span></li>
+            <li id="password"><strong>$password</strong>
+                —
+                string<br/><span class="indent">MySQL Database password</span></li>
+            <li id="port"><strong>$port</strong>
+                —
+                integer<br/><span class="indent">MySQL Database access port</span></li>
+            <li id="url"><strong>$url</strong>
+                —
+                string<br/><span class="indent">MySQL Database url</span></li>
+            <li id="username"><strong>$username</strong>
+                —
+                string<br/><span class="indent">MySQL Database username</span></li>
+          </ul>
+        </div>
+        <h2 id="methods">Methods</h2>
+        <div class="styled">
+          <h4>private</h4>
+          <ul>
+            <li id="setUpField"><a title="PPHI\DataSource\Source\MySQLDataSource" href="../classes/PPHI_DataSource_Source_MySQLDataSource/setUpField.xhtml">setUpField()</a>
+                — Setup the given field</li>
+          </ul>
+          <h4>public</h4>
+          <ul>
+            <li id="__construct"><a title="PPHI\DataSource\Source\MySQLDataSource" href="../classes/PPHI_DataSource_Source_MySQLDataSource/__construct.xhtml">__construct()</a>
+                — MySQLDataSource constructor.</li>
+            <li id="getDatabase"><a title="PPHI\DataSource\Source\MySQLDataSource" href="../classes/PPHI_DataSource_Source_MySQLDataSource/getDatabase.xhtml">getDatabase()</a>
+                — Get the MySQL database name.</li>
+            <li id="getPassword"><a title="PPHI\DataSource\Source\MySQLDataSource" href="../classes/PPHI_DataSource_Source_MySQLDataSource/getPassword.xhtml">getPassword()</a>
+                — Get the password used to connect to the MySQL server.</li>
+            <li id="getPort"><a title="PPHI\DataSource\Source\MySQLDataSource" href="../classes/PPHI_DataSource_Source_MySQLDataSource/getPort.xhtml">getPort()</a>
+                — Get the database port.</li>
+            <li id="getType"><a title="PPHI\DataSource\Source\MySQLDataSource" href="../classes/PPHI_DataSource_Source_MySQLDataSource/getType.xhtml">getType()</a>
+                — Get the data source type (mysql)</li>
+            <li id="getUrl"><a title="PPHI\DataSource\Source\MySQLDataSource" href="../classes/PPHI_DataSource_Source_MySQLDataSource/getUrl.xhtml">getUrl()</a>
+                — Get the MySQL server's URL.</li>
+            <li id="getUsername"><a title="PPHI\DataSource\Source\MySQLDataSource" href="../classes/PPHI_DataSource_Source_MySQLDataSource/getUsername.xhtml">getUsername()</a>
+                — Get the username used to connect to the MySQL server.</li>
+            <li id="setUp"><a title="PPHI\DataSource\Source\MySQLDataSource" href="../classes/PPHI_DataSource_Source_MySQLDataSource/setUp.xhtml">setUp()</a>
+                — Setup the mysql data source</li>
+          </ul>
+          <h3>Inherited from <a title="PPHI\DataSource\Source\DataSource" href="../classes/PPHI_DataSource_Source_DataSource.xhtml">PPHI\DataSource\Source\DataSource</a></h3>
+          <h4>public</h4>
+          <ul>
+            <li id="getIdentifier"><a title="PPHI\DataSource\Source\DataSource" href="../classes/PPHI_DataSource_Source_DataSource/getIdentifier.xhtml">getIdentifier()</a>
+                — Gets the dataSource identifier</li>
+            <li id="getType"><a title="PPHI\DataSource\Source\DataSource" href="../classes/PPHI_DataSource_Source_DataSource/getType.xhtml">getType()</a>
+                — Get the data source type</li>
+            <li id="setUp"><a title="PPHI\DataSource\Source\DataSource" href="../classes/PPHI_DataSource_Source_DataSource/setUp.xhtml">setUp()</a>
+                — Setup the data source</li>
+          </ul>
+        </div>
+      </section>
+    </div>
+    <footer>
+      <span>Generated using phpDox 0.12.0 - Copyright (C) 2010 - 2019 by Arne Blankerts and Contributors</span>
+    </footer>
+  </body>
+</html>

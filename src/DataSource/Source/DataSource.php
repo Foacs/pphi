@@ -38,16 +38,26 @@
  */
 namespace PPHI\DataSource\Source;
 
+/**
+ * Class DataSource
+ * Use to hold information about a data source.
+ *
+ * @package PPHI\DataSource\Source
+ * @version 0.1.0
+ * @api
+ * @license CeCILL-C
+ * @author Foacs
+ */
 abstract class DataSource
 {
     /**
      * @var string
      */
-    private $id;
+    private $identifier;
 
     protected function __construct()
     {
-        $this->id = uniqid("ds_");
+        $this->identifier = uniqid("ds_");
     }
 
     /**
@@ -69,8 +79,8 @@ abstract class DataSource
      *
      * @return string
      */
-    public function getId(): string
+    public function getIdentifier(): string
     {
-        return $this->id;
+        return $this->identifier;
     }
 }

@@ -39,8 +39,11 @@
 
 namespace PPHI\UnitTest;
 
+use Exception;
 use PHPUnit\Framework\TestCase;
 use PPHI\Connector\ConnectorError;
+use ReflectionClass;
+use ReflectionException;
 
 class ConnectorErrorTest extends TestCase
 {
@@ -55,14 +58,14 @@ class ConnectorErrorTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->victim = new ConnectorError(get_class($this), self::MESSAGE, self::CODE, new \Exception("test"));
+        $this->victim = new ConnectorError(get_class($this), self::MESSAGE, self::CODE, new Exception("test"));
     }
 
     public function testConstructorWithWrongClassName()
     {
         try {
             self::assertNotNull(new ConnectorError("smthWrong", self::MESSAGE));
-        } catch (\ReflectionException $e) {
+        } catch (ReflectionException $e) {
             self::fail("Failed asserting don't throw a exception");
         }
     }
@@ -89,17 +92,17 @@ class ConnectorErrorTest extends TestCase
     public function testConstructorException()
     {
         self::assertNotNull($this->victim->getException());
-        self::assertEquals(new \Exception("test"), $this->victim->getException());
+        self::assertEquals(new Exception("test"), $this->victim->getException());
     }
 
     public function testSetClassName()
     {
         try {
-            $this->victim->setClass(new \ReflectionClass(ConnectorError::class));
+            $this->victim->setClass(new ReflectionClass(ConnectorError::class));
             self::assertNotNull($this->victim->getClass());
-            self::assertEquals(new \ReflectionClass(ConnectorError::class), $this->victim->getClass());
-            self::assertNotEquals(new \ReflectionClass(get_class($this)), $this->victim->getClass());
-        } catch (\ReflectionException $e) {
+            self::assertEquals(new ReflectionClass(ConnectorError::class), $this->victim->getClass());
+            self::assertNotEquals(new ReflectionClass(get_class($this)), $this->victim->getClass());
+        } catch (ReflectionException $e) {
             self::fail("Failed asserting don't throw exception");
         }
     }
@@ -125,7 +128,7 @@ class ConnectorErrorTest extends TestCase
 
     public function testSetException()
     {
-        $exception = new \Exception("smth");
+        $exception = new Exception("smth");
         $this->victim->setException($exception);
         self::assertNotNull($this->victim->getException());
         self::assertEquals($exception, $this->victim->getException());

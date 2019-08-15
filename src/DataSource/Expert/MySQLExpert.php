@@ -42,9 +42,26 @@ namespace PPHI\DataSource\Expert;
 use PPHI\DataSource\Source\DataSource;
 use PPHI\DataSource\Source\MySQLDataSource;
 
+/**
+ * Class MySQLExpert
+ * Expert to resolve MySQL data source type.
+ *
+ * @package PPHI\DataSource\Expert
+ * @version 0.1.0
+ * @api
+ * @license CeCILL-C
+ * @author Foacs
+ */
 class MySQLExpert extends Expert
 {
 
+    /**
+     * If the given string is "mysql", will return a MySQL data source.
+     *
+     * @param string $str The checked string
+     *
+     * @return DataSource|null A data source if str == mysql
+     */
     public function execute(string $str): ?DataSource
     {
         if (strcmp($str, "mysql") === 0) {

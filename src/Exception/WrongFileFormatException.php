@@ -38,10 +38,17 @@
  */
 namespace PPHI\Exception;
 
-use \Exception;
+use Exception;
 
 /**
- * Exception class throws when found wrong file format
+ * Class WrongFileFormatException
+ * Exception class throws when found wrong file format.
+ *
+ * @package PPHI\Exception
+ * @version 0.1.0
+ * @api
+ * @license CeCILL-C
+ * @author Foacs
  */
 class WrongFileFormatException extends Exception
 {

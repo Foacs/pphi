@@ -43,6 +43,16 @@ use PPHI\Connector\Database\MySQLConnector;
 use PPHI\DataSource\Source\DataSource;
 use PPHI\Exception\UnknownDataSourcesTypeException;
 
+/**
+ * Class ConnectionManager
+ * Use to handle connection
+ *
+ * @package PPHI
+ * @version 0.1.0
+ * @api
+ * @license CeCILL-C
+ * @author Foacs
+ */
 class ConnectionManager
 {
 
@@ -64,7 +74,7 @@ class ConnectionManager
      */
     public function addConnectionFromDataSource(DataSource $dataSource, Connector $givenConnector = null): bool
     {
-        if (array_key_exists($dataSource->getId(), $this->connections)) {
+        if (array_key_exists($dataSource->getIdentifier(), $this->connections)) {
             return false;
         }
         try {
@@ -114,7 +124,9 @@ class ConnectionManager
     }
 
     /**
-     * @return array
+     * Get connections which have been created with \PPHI\Connector\ConnectionManager::addConnectionFromDataSourceArray
+     *
+     * @return array Created connections
      */
     public function getConnections(): array
     {
@@ -122,7 +134,9 @@ class ConnectionManager
     }
 
     /**
-     * @return array
+     * Get errors which occur during connections creation
+     *
+     * @return array The errors which occur
      */
     public function getAndFlushErrors(): array
     {

@@ -39,6 +39,16 @@
 
 namespace PPHI\Exception;
 
+/**
+ * Class WrongMySQLDataSourcesConfigurationException
+ * Throw when found a wrong data source configuration.
+ *
+ * @package PPHI\Exception
+ * @version 0.1.0
+ * @api
+ * @license CeCILL-C
+ * @author Foacs
+ */
 class WrongMySQLDataSourcesConfigurationException extends \Exception
 {
 }
