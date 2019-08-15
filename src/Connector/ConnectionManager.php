@@ -62,13 +62,13 @@ class ConnectionManager
      * @param DataSource $dataSource data source which will be add
      * @return bool True if successfully added
      */
-    public function addConnectionFromDataSource(DataSource $dataSource): bool
+    public function addConnectionFromDataSource(DataSource $dataSource, Connector $givenConnector = null): bool
     {
         if (array_key_exists($dataSource->getId(), $this->connections)) {
             return false;
         }
         try {
-            $connector = $this->buildConnectorFromDataSource($dataSource);
+            $connector = $givenConnector ?? $this->buildConnectorFromDataSource($dataSource);
             if (!$connector->connect($dataSource)) {
                 array_push($this->errors, $connector->getError());
                 return false;

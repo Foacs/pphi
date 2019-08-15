@@ -3,7 +3,7 @@
  * Copyright Foacs
  * contributor(s): Alexis DINQUER
  *
- * (2019-05-09)
+ * (2019-08-14)
  *
  * contact@foacs.me
  *
@@ -35,69 +35,48 @@
  *
  * The fact that you are presently reading this means that you have had
  * knowledge of the CeCILL-C license and that you accept its terms.
+ *
+ * This software includes
  */
-namespace PPHI\DataSource;
+namespace PPHI\UnitTest;
 
-use PPHI\DataSource\Expert\Processor;
+use PHPUnit\Framework\TestCase;
+use PPHI\Connector\Database\MySQLConnector;
 use PPHI\DataSource\Source\DataSource;
-use PPHI\Exception\UnknownDataSourcesTypeException;
+use PPHI\DataSource\Source\MySQLDataSource;
 
-class DataSourceManager
+class MySQLConnectorTest extends TestCase
 {
     /**
-     * @var Processor
+     * @var MySQLConnector
      */
-    private $processor;
+    private $victim;
 
-    /**
-     * @var array
-     */
-    private $dataSources = [];
+    private $pdo;
 
-    /**
-     * DataSourceManager constructor.
-     *
-     * @param Processor $processor The expert processor
-     * @param array $expexrt A array of expert
-     */
-    public function __construct(Processor $processor, array $experts)
+    private $MySQLDataSource;
+
+    protected function setUp(): void
     {
-        $this->processor = $processor;
-        foreach ($experts as $expert) {
-            $this->processor->pushExpert($expert);
-        }
+        parent::setUp();
+        $this->victim = new MySQLConnector();
+        $this->pdo = \Mockery::mock(\PDO::class);
+        $this->MySQLDataSource = \Mockery::mock(MySQLDataSource::class);
     }
 
-    /**
-     * Load all data sources from config directory in $dataSources;
-     *
-     * @param array $dataSources Contains all data sources configuration
-     * @return int Number of loaded dataSource
-     * @throws UnknownDataSourcesTypeException when found an unknown data sources type
-     */
-    public function load(array $dataSources): int
+    public function testConnectWrongDataSource()
     {
-        $res = 0;
-        foreach ($dataSources as $dataSourceName => $dataSource) {
-            $dataSourceType = strtolower($dataSource['type']) ?? "mysql";
-            $ds = $this->processor->execute($dataSourceType);
-            if (!is_null($ds)) {
-                $ds->setUp($dataSource);
-                $this->dataSources[$dataSourceName] = $ds;
-                $res++;
-            } else {
-                throw new UnknownDataSourcesTypeException("The data sources type " . $dataSourceType . " is unknown");
-            }
-        }
-        return $res;
+        self::assertFalse($this->victim->connect(\Mockery::mock(DataSource::class)));
+        self::assertNotNull($this->victim->getError());
     }
 
-    /**
-     * Get all loaded data sources
-     * @return DataSource[] An array of DataSource
-     */
-    public function getDataSources(): array
+    public function testConnectWithMySQLDS()
     {
-        return $this->dataSources;
+        $this->MySQLDataSource->allows()->getUrl()->andReturn("");
+        $this->MySQLDataSource->allows()->getDatabase()->andReturn("");
+        $this->MySQLDataSource->allows()->getPassword()->andReturn("");
+        $this->MySQLDataSource->allows()->getUsername()->andReturn("");
+        $this->MySQLDataSource->allows()->getPort()->andReturn(80);
+        self::assertTrue($this->victim->connect($this->MySQLDataSource, $this->pdo));
     }
 }

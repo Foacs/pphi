@@ -64,7 +64,7 @@ class MySQLConnector implements Connector
      * @param DataSource $dataSource The data source
      * @return bool True if connect successfully
      */
-    public function connect(DataSource $dataSource): bool
+    public function connect(DataSource $dataSource, \PDO $pdo = null): bool
     {
         if (!$dataSource instanceof MySQLDataSource) {
             $this->error = new ConnectorError(get_class($this), "The data source is not a MySQLDataSource", 1);
@@ -75,7 +75,7 @@ class MySQLConnector implements Connector
         var_dump($dns);
         var_dump($dataSource->getPassword());
         try {
-            $this->pdo = new \PDO(
+            $this->pdo = $pdo ?? new \PDO(
                 $dns,
                 $dataSource->getUsername(),
                 $dataSource->getPassword(),

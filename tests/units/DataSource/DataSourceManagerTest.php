@@ -3,7 +3,7 @@
  * Copyright Foacs
  * contributor(s): Alexis DINQUER
  *
- * (2019-05-09)
+ * (2019-08-15)
  *
  * contact@foacs.me
  *
@@ -36,68 +36,72 @@
  * The fact that you are presently reading this means that you have had
  * knowledge of the CeCILL-C license and that you accept its terms.
  */
-namespace PPHI\DataSource;
 
+namespace PPHI\UnitTest;
+
+use Mockery\MockInterface;
+use PHPUnit\Framework\TestCase;
+use PPHI\DataSource\DataSourceManager;
 use PPHI\DataSource\Expert\Processor;
-use PPHI\DataSource\Source\DataSource;
+use PPHI\DataSource\Source\MySQLDataSource;
 use PPHI\Exception\UnknownDataSourcesTypeException;
 
-class DataSourceManager
+class DataSourceManagerTest extends TestCase
 {
     /**
-     * @var Processor
+     * @var DataSourceManager
+     */
+    private $victim;
+
+    /**
+     * @var MockInterface
      */
     private $processor;
 
-    /**
-     * @var array
-     */
-    private $dataSources = [];
-
-    /**
-     * DataSourceManager constructor.
-     *
-     * @param Processor $processor The expert processor
-     * @param array $expexrt A array of expert
-     */
-    public function __construct(Processor $processor, array $experts)
+    protected function setUp(): void
     {
-        $this->processor = $processor;
-        foreach ($experts as $expert) {
-            $this->processor->pushExpert($expert);
+        parent::setUp();
+        $this->processor = \Mockery::mock(Processor::class);
+        $this->processor->allows()->pushExpert(\Mockery::any());
+
+        $this->victim = new DataSourceManager($this->processor, []);
+    }
+
+    public function testLoadWithMysql()
+    {
+        $ds = \Mockery::mock(MySQLDataSource::class);
+        $ds->allows()->setUp(\Mockery::any());
+        $this->processor->allows()->execute("mysql")->andReturn($ds);
+        $dataSource = [
+            "type" => "mysql"
+        ];
+
+        try {
+            $this->victim->load(["mysql" => $dataSource]);
+            self::assertNotEmpty($this->victim->getDataSources());
+            self::assertEquals($ds, $this->victim->getDataSources()['mysql']);
+        } catch (UnknownDataSourcesTypeException $e) {
+            self::fail("Failed to assert");
         }
     }
 
-    /**
-     * Load all data sources from config directory in $dataSources;
-     *
-     * @param array $dataSources Contains all data sources configuration
-     * @return int Number of loaded dataSource
-     * @throws UnknownDataSourcesTypeException when found an unknown data sources type
-     */
-    public function load(array $dataSources): int
+    public function testLoadWithWrongDS()
     {
-        $res = 0;
-        foreach ($dataSources as $dataSourceName => $dataSource) {
-            $dataSourceType = strtolower($dataSource['type']) ?? "mysql";
-            $ds = $this->processor->execute($dataSourceType);
-            if (!is_null($ds)) {
-                $ds->setUp($dataSource);
-                $this->dataSources[$dataSourceName] = $ds;
-                $res++;
-            } else {
-                throw new UnknownDataSourcesTypeException("The data sources type " . $dataSourceType . " is unknown");
-            }
-        }
-        return $res;
+        $this->expectException(UnknownDataSourcesTypeException::class);
+        $this->processor->allows()->execute("smth")->andReturn(null);
+        $dataSource = [
+            "type" => "smth"
+        ];
+        $this->victim->load(["mysql" => $dataSource]);
     }
 
-    /**
-     * Get all loaded data sources
-     * @return DataSource[] An array of DataSource
-     */
-    public function getDataSources(): array
+
+    public function testLoadEmptyDataSource()
     {
-        return $this->dataSources;
+        try {
+            self::assertEquals(0, $this->victim->load([]));
+        } catch (UnknownDataSourcesTypeException $e) {
+            self::fail("Failed to assert");
+        }
     }
 }
