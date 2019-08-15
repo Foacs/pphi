@@ -40,6 +40,7 @@
  */
 namespace PPHI\UnitTest;
 
+use Mockery;
 use PHPUnit\Framework\TestCase;
 use PPHI\Connector\Database\MySQLConnector;
 use PPHI\DataSource\Source\DataSource;
@@ -60,13 +61,13 @@ class MySQLConnectorTest extends TestCase
     {
         parent::setUp();
         $this->victim = new MySQLConnector();
-        $this->pdo = \Mockery::mock(\PDO::class);
-        $this->MySQLDataSource = \Mockery::mock(MySQLDataSource::class);
+        $this->pdo = Mockery::mock(\PDO::class);
+        $this->MySQLDataSource = Mockery::mock(MySQLDataSource::class);
     }
 
     public function testConnectWrongDataSource()
     {
-        self::assertFalse($this->victim->connect(\Mockery::mock(DataSource::class)));
+        self::assertFalse($this->victim->connect(Mockery::mock(DataSource::class)));
         self::assertNotNull($this->victim->getError());
     }
 

@@ -41,6 +41,17 @@ namespace PPHI\DataSource\Expert;
 
 use PPHI\DataSource\Source\DataSource;
 
+/**
+ * Class Expert
+ * An expert is used to resolved the data source type.
+ * It's used in a linked chain of expert
+ *
+ * @package PPHI\DataSource\Expert
+ * @version 0.1.0
+ * @api
+ * @license CeCILL-C
+ * @author Foacs
+ */
 abstract class Expert
 {
     /**
@@ -48,10 +59,19 @@ abstract class Expert
      */
     private $next;
 
+    /**
+     * Process the string given in parameter, return the found dataSource or null even.
+     * If return null, the processor will call try with the next expert.
+     *
+     * @param string $str The string which will be processed
+     * @return DataSource|null The result
+     */
     abstract public function execute(string $str): ?DataSource;
 
     /**
-     * @return Expert
+     * Get the next expert in the chain.
+     *
+     * @return Expert The next expert
      */
     public function getNext(): ?Expert
     {
@@ -59,6 +79,8 @@ abstract class Expert
     }
 
     /**
+     * Set the next expert in the chain
+     *
      * @param Expert $next next expert in the chain
      */
     public function setNext(?Expert $next): void

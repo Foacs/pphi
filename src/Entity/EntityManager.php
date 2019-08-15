@@ -39,6 +39,16 @@
 
 namespace PPHI\Entity;
 
+/**
+ * Class EntityManager
+ * Handle entity.
+ *
+ * @package PPHI\Entity
+ * @version 0.1.0
+ * @api
+ * @license CeCILL-C
+ * @author Foacs
+ */
 class EntityManager
 {
 

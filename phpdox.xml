@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<phpdox xmlns="http://xml.phpdox.net/config">
+    <project name="PPHI" source="${basedir}/src" workdir="${basedir}/build/api/xml">
+        <collector backend="parser" />
+        <generator output="${basedir}/docs/api">
+            <enrich base="${basedir}">
+                <source type="phpcs">
+                    <file name=".reports/phpcs.xml" />
+                </source>
+                <source type="phploc">
+                    <file name=".reports/phploc.xml" />
+                </source>
+                <source type="pmd">
+                    <file name=".reports/phpmd.xml" />
+                </source>
+            </enrich>
+            <build engine="html" output="html"/>
+        </generator>
+    </project>
+</phpdox>

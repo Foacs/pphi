@@ -38,10 +38,17 @@
  */
 namespace PPHI\Exception;
 
-use \Exception;
+use Exception;
 
 /**
+ * Class ConfigNotFoundException
  * Exception class throws when config file or directory are not found
+ *
+ * @package PPHI\Exception
+ * @version 0.1.0
+ * @api
+ * @license CeCILL-C
+ * @author Foacs
  */
 class ConfigNotFoundException extends Exception
 {

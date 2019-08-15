@@ -39,6 +39,7 @@
 
 namespace PPHI\UnitTest;
 
+use Mockery;
 use Mockery\MockInterface;
 use PHPUnit\Framework\TestCase;
 use PPHI\DataSource\DataSourceManager;
@@ -61,17 +62,17 @@ class DataSourceManagerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->processor = \Mockery::mock(Processor::class);
-        $this->processor->allows()->pushExpert(\Mockery::any());
+        $this->processor = Mockery::mock(Processor::class);
+        $this->processor->allows()->pushExpert(Mockery::any());
 
         $this->victim = new DataSourceManager($this->processor, []);
     }
 
     public function testLoadWithMysql()
     {
-        $ds = \Mockery::mock(MySQLDataSource::class);
-        $ds->allows()->setUp(\Mockery::any());
-        $this->processor->allows()->execute("mysql")->andReturn($ds);
+        $sqlDataSource = Mockery::mock(MySQLDataSource::class);
+        $sqlDataSource->allows()->setUp(Mockery::any());
+        $this->processor->allows()->execute("mysql")->andReturn($sqlDataSource);
         $dataSource = [
             "type" => "mysql"
         ];
@@ -79,7 +80,7 @@ class DataSourceManagerTest extends TestCase
         try {
             $this->victim->load(["mysql" => $dataSource]);
             self::assertNotEmpty($this->victim->getDataSources());
-            self::assertEquals($ds, $this->victim->getDataSources()['mysql']);
+            self::assertEquals($sqlDataSource, $this->victim->getDataSources()['mysql']);
         } catch (UnknownDataSourcesTypeException $e) {
             self::fail("Failed to assert");
         }

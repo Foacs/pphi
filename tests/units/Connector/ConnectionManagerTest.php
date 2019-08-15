@@ -38,6 +38,7 @@
  */
 namespace PPHI\UnitTest;
 
+use Mockery;
 use PHPUnit\Framework\TestCase;
 use PPHI\Connector\ConnectionManager;
 use PPHI\Connector\Database\MySQLConnector;
@@ -60,15 +61,15 @@ class ConnectionManagerTest extends TestCase
         parent::setUp();
         $this->victim = new ConnectionManager();
 
-        $this->dataSource = \Mockery::mock(DataSource::class);
+        $this->dataSource = Mockery::mock(DataSource::class);
     }
 
     public function testAddConnectionFromDataSourceWithMySQL()
     {
-        $this->dataSource->allows()->getId()->andReturn("id1");
+        $this->dataSource->allows()->getIdentifier()->andReturn("id1");
         $this->dataSource->allows()->getType()->andReturn("mysql");
 
-        $connector = \Mockery::mock(MySQLConnector::class);
+        $connector = Mockery::mock(MySQLConnector::class);
         $connector->allows()->connect($this->dataSource)->andReturn(true);
 
         self::assertTrue($this->victim->addConnectionFromDataSource($this->dataSource, $connector));
@@ -80,7 +81,7 @@ class ConnectionManagerTest extends TestCase
     public function testAddConnectionUnknowType()
     {
 
-        $this->dataSource->allows()->getId()->andReturn("id1");
+        $this->dataSource->allows()->getIdentifier()->andReturn("id1");
         $this->dataSource->allows()->getType()->andReturn("smth");
 
         self::assertFalse($this->victim->addConnectionFromDataSource($this->dataSource));
@@ -88,7 +89,7 @@ class ConnectionManagerTest extends TestCase
 
     public function testAddConnectionTwice()
     {
-        $this->dataSource->allows()->getId()->andReturn("id1");
+        $this->dataSource->allows()->getIdentifier()->andReturn("id1");
         $this->dataSource->allows()->getType()->andReturn("mysql");
 
         $this->victim->addConnectionFromDataSource($this->dataSource);

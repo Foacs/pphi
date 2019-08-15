@@ -41,16 +41,29 @@
 
 namespace PPHI\Connector\Database;
 
+use PDO;
 use PPHI\Connector\Connector;
 use PPHI\Connector\ConnectorError;
 use PPHI\DataSource\Source\DataSource;
 use PPHI\DataSource\Source\MySQLDataSource;
 
+/**
+ * Class MySQLConnector
+ * Use to hold a connection to a MySQL server
+ *
+ * @package PPHI\Connector\Database
+ *
+ * @package PPHI
+ * @version 0.1.0
+ * @api
+ * @license CeCILL-C
+ * @author Foacs
+ */
 class MySQLConnector implements Connector
 {
 
     /**
-     * @var \PDO
+     * @var PDO
      */
     private $pdo;
 
@@ -60,11 +73,14 @@ class MySQLConnector implements Connector
     private $error;
 
     /**
-     * Connect to the data source
+     * Connect to the data source with the specified PDO or new one if null.
+     *
      * @param DataSource $dataSource The data source
+     * @param PDO|null $pdo The PDO used to connect
+     *
      * @return bool True if connect successfully
      */
-    public function connect(DataSource $dataSource, \PDO $pdo = null): bool
+    public function connect(DataSource $dataSource, PDO $pdo = null): bool
     {
         if (!$dataSource instanceof MySQLDataSource) {
             $this->error = new ConnectorError(get_class($this), "The data source is not a MySQLDataSource", 1);
@@ -75,11 +91,11 @@ class MySQLConnector implements Connector
         var_dump($dns);
         var_dump($dataSource->getPassword());
         try {
-            $this->pdo = $pdo ?? new \PDO(
+            $this->pdo = $pdo ?? new PDO(
                 $dns,
                 $dataSource->getUsername(),
                 $dataSource->getPassword(),
-                array(\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION)
+                array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION)
             );
         } catch (\PDOException $e) {
             $this->error = new ConnectorError(
@@ -95,6 +111,7 @@ class MySQLConnector implements Connector
 
     /**
      * Check if is connected to the data source
+     *
      * @return bool True if connected
      */
     public function isConnected(): bool
@@ -105,6 +122,7 @@ class MySQLConnector implements Connector
 
     /**
      * Close the connection with data source
+     *
      * @return bool True if successfully closed
      */
     public function close(): bool
@@ -112,6 +130,11 @@ class MySQLConnector implements Connector
         return true;
     }
 
+    /**
+     * Get the errors generated during connection
+     *
+     * @return ConnectorError|null The generated errors
+     */
     public function getError(): ?ConnectorError
     {
         return $this->error;
