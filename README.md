@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/Foacs/pphi.svg?branch=master)](https://travis-ci.org/Foacs/pphi) [![codecov](https://codecov.io/gh/Foacs/pphi/branch/master/graph/badge.svg)](https://codecov.io/gh/Foacs/pphi) ![PHP from Packagist](https://img.shields.io/packagist/php-v/dederobert/pphi.svg) ![GitHub](https://img.shields.io/github/license/Hovensoft/pphi.svg) ![GitHub repo size](https://img.shields.io/github/repo-size/Hovensoft/pphi.svg)
+[![Build Status](https://travis-ci.org/Foacs/pphi.svg?branch=master)](https://travis-ci.org/Foacs/pphi) [![codecov](https://codecov.io/gh/Foacs/pphi/branch/master/graph/badge.svg)](https://codecov.io/gh/Foacs/pphi) ![PHP from Packagist](https://img.shields.io/packagist/php-v/Foacs/pphi.svg) ![Packagist](https://img.shields.io/packagist/l/foacs/pphi) ![GitHub repo size](https://img.shields.io/github/repo-size/Hovensoft/pphi.svg)
 # PPHI &#934; _(English)_
     French below | Fraçais en dessous
 ## A PHP Persistence Holder Interface
