@@ -38,7 +38,6 @@
  */
 namespace PPHI\DataSource;
 
-use PPHI\DataSource\Expert\MySQLExpert;
 use PPHI\DataSource\Expert\Processor;
 use PPHI\DataSource\Source\DataSource;
 use PPHI\Exception\UnknownDataSourcesTypeException;
@@ -57,31 +56,40 @@ class DataSourceManager
 
     /**
      * DataSourceManager constructor.
+     *
+     * @param Processor $processor The expert processor
+     * @param array $expexrt A array of expert
      */
-    public function __construct()
+    public function __construct(Processor $processor, array $experts)
     {
-        $this->processor = new Processor();
-        $this->processor->pushExpert(new MySQLExpert());
+        $this->processor = $processor;
+        foreach ($experts as $expert) {
+            $this->processor->pushExpert($expert);
+        }
     }
 
     /**
      * Load all data sources from config directory in $dataSources;
      *
      * @param array $dataSources Contains all data sources configuration
+     * @return int Number of loaded dataSource
      * @throws UnknownDataSourcesTypeException when found an unknown data sources type
      */
-    public function load(array $dataSources): void
+    public function load(array $dataSources): int
     {
+        $res = 0;
         foreach ($dataSources as $dataSourceName => $dataSource) {
             $dataSourceType = strtolower($dataSource['type']) ?? "mysql";
             $ds = $this->processor->execute($dataSourceType);
             if (!is_null($ds)) {
                 $ds->setUp($dataSource);
                 $this->dataSources[$dataSourceName] = $ds;
+                $res++;
             } else {
                 throw new UnknownDataSourcesTypeException("The data sources type " . $dataSourceType . " is unknown");
             }
         }
+        return $res;
     }
 
     /**

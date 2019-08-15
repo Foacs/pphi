@@ -55,7 +55,7 @@ use PPHI\Exception\WrongFileFormatException;
  */
 class PPHI
 {
-    const VERSION = "1.0-a1";
+    const VERSION = "0.x.0";
 
     const DATA_SOURCES_PATH = "pphi/datasources";
 

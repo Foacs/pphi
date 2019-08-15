@@ -49,7 +49,7 @@ before_script:
   - pip install coverage --user
 script:
   - php vendor/bin/phpunit --colors --coverage-clover coverage.xml
-  - ls
+  - php vendor/bin/phpcs --colors
 after_success:  
   - bash <(curl -s https://codecov.io/bash)
   - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
