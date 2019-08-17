@@ -43,6 +43,7 @@ use PHPUnit\Framework\TestCase;
 use PPHI\Connector\ConnectionManager;
 use PPHI\Connector\Database\MySQLConnector;
 use PPHI\DataSource\Source\DataSource;
+use PPHI\utils\PPHILogger;
 
 class ConnectionManagerTest extends TestCase
 {
@@ -59,6 +60,7 @@ class ConnectionManagerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+        PPHILogger::getInstance()->setIgnoreFile(true);
         $this->victim = new ConnectionManager();
 
         $this->dataSource = Mockery::mock(DataSource::class);

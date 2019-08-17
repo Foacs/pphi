@@ -39,7 +39,9 @@
 
 namespace PPHI\DataSource\Expert;
 
+use Monolog\Logger;
 use PPHI\DataSource\Source\DataSource;
+use PPHI\utils\PPHILogger;
 
 /**
  * Class Processor
@@ -58,6 +60,15 @@ class Processor
      * @var Expert
      */
     private $expert;
+    /**
+     * @var Logger
+     */
+    private $logger;
+
+    public function __construct()
+    {
+        $this->logger = PPHILogger::getLogger();
+    }
 
     /**
      * Try all expert in the chain and give the found result or null.
@@ -68,9 +79,11 @@ class Processor
      */
     public function execute(string $str): ?DataSource
     {
+        $this->logger->addDebug('Processing ' . $str, ['class' => 'Processor']);
         if (!is_null($this->expert)) {
             return $this->expert->execute($str);
         }
+        $this->logger->addDebug('No result found for ' . $str, ['class' => 'Processor']);
         return null;
     }
 
@@ -81,6 +94,7 @@ class Processor
      */
     public function pushExpert(Expert $expert): void
     {
+        $this->logger->addDebug('Add expert to the processor', ['class' => 'Processor']);
         $tmp = $this->expert;
         $expert->setNext($tmp);
         $this->expert = $expert;

@@ -40,6 +40,7 @@
 namespace PPHI\Connector;
 
 use Exception;
+use PPHI\utils\PPHILogger;
 use ReflectionClass;
 use ReflectionException;
 
@@ -89,6 +90,10 @@ class ConnectorError
         try {
             $this->class = new ReflectionClass($className);
         } catch (ReflectionException $ignored) {
+            PPHILogger::getLogger()->addWarning(
+                "Impossible to get the reflection class for " . $className,
+                ['class' => 'ConnectorError']
+            );
         }
         $this->message = $message;
         $this->code = $code;

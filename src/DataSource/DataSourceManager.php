@@ -38,9 +38,11 @@
  */
 namespace PPHI\DataSource;
 
+use Monolog\Logger;
 use PPHI\DataSource\Expert\Processor;
 use PPHI\DataSource\Source\DataSource;
 use PPHI\Exception\UnknownDataSourcesTypeException;
+use PPHI\utils\PPHILogger;
 
 /**
  * Class DataSourceManager
@@ -65,6 +67,11 @@ class DataSourceManager
     private $dataSources = [];
 
     /**
+     * @var Logger
+     */
+    private $logger;
+
+    /**
      * DataSourceManager constructor.
      *
      * @param Processor $processor The expert processor
@@ -72,6 +79,7 @@ class DataSourceManager
      */
     public function __construct(Processor $processor, array $experts)
     {
+        $this->logger = PPHILogger::getLogger();
         $this->processor = $processor;
         foreach ($experts as $expert) {
             $this->processor->pushExpert($expert);
@@ -87,8 +95,10 @@ class DataSourceManager
      */
     public function load(array $dataSources): int
     {
+        $this->logger->addInfo('Loading data sources ...', ['class' => 'DataSourceManager']);
         $res = 0;
         foreach ($dataSources as $dataSourceName => $dataSource) {
+            $this->logger->addDebug('Load data source ' . $dataSourceName, ['class' => 'DataSourceManager']);
             $dataSourceType = strtolower($dataSource['type']) ?? "mysql";
             $ds = $this->processor->execute($dataSourceType);
             if (is_null($ds)) {
@@ -98,6 +108,7 @@ class DataSourceManager
             $this->dataSources[$dataSourceName] = $ds;
             $res++;
         }
+        $this->logger->addInfo('Load ' . $res . ' data sources', ['class' => 'DataSourceManager']);
         return $res;
     }
 

@@ -42,6 +42,7 @@ namespace PPHI\UnitTest;
 use PHPUnit\Framework\TestCase;
 use PPHI\DataSource\Source\MySQLDataSource;
 use PPHI\Exception\WrongMySQLDataSourcesConfigurationException;
+use PPHI\utils\PPHILogger;
 
 class MySQLDataSourceTest extends TestCase
 {
@@ -53,6 +54,7 @@ class MySQLDataSourceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+        PPHILogger::getInstance()->setIgnoreFile(true);
         $this->victim = new MySQLDataSource("name");
     }
 

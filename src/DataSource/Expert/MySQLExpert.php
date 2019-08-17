@@ -41,6 +41,7 @@ namespace PPHI\DataSource\Expert;
 
 use PPHI\DataSource\Source\DataSource;
 use PPHI\DataSource\Source\MySQLDataSource;
+use PPHI\utils\PPHILogger;
 
 /**
  * Class MySQLExpert
@@ -65,6 +66,7 @@ class MySQLExpert extends Expert
     public function execute(string $str): ?DataSource
     {
         if (strcmp($str, "mysql") === 0) {
+            PPHILogger::getLogger()->addDebug('MySQL found for ' . $str, ['class' => 'MySQLExpert']);
             return new MySQLDataSource($str);
         } else {
             return !is_null($this->getNext()) ? $this->getNext()->execute($str) : null;

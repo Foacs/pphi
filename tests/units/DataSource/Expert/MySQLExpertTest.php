@@ -43,6 +43,7 @@ use PHPUnit\Framework\TestCase;
 use PPHI\DataSource\Expert\Expert;
 use PPHI\DataSource\Expert\MySQLExpert;
 use PPHI\DataSource\Source\DataSource;
+use PPHI\utils\PPHILogger;
 
 class MySQLExpertTest extends TestCase
 {
@@ -58,6 +59,7 @@ class MySQLExpertTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+        PPHILogger::getInstance()->setIgnoreFile(true);
         $this->victim = new MySQLExpert();
         $this->mockExpert = $this->createMock(Expert::class);
         $this->mockDataSource = $this->createMock(DataSource::class);

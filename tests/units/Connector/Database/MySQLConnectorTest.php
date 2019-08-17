@@ -45,6 +45,7 @@ use PHPUnit\Framework\TestCase;
 use PPHI\Connector\Database\MySQLConnector;
 use PPHI\DataSource\Source\DataSource;
 use PPHI\DataSource\Source\MySQLDataSource;
+use PPHI\utils\PPHILogger;
 
 class MySQLConnectorTest extends TestCase
 {
@@ -60,6 +61,7 @@ class MySQLConnectorTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+        PPHILogger::getInstance()->setIgnoreFile(true);
         $this->victim = new MySQLConnector();
         $this->pdo = Mockery::mock(\PDO::class);
         $this->MySQLDataSource = Mockery::mock(MySQLDataSource::class);

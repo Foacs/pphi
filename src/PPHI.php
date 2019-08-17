@@ -44,6 +44,8 @@ use PPHI\DataSource\Expert\MySQLExpert;
 use PPHI\DataSource\Expert\Processor;
 use PPHI\Exception\ConfigNotFoundException;
 use PPHI\Exception\WrongFileFormatException;
+use PPHI\utils\PPHILogger;
+use PPHI\utils\ConfigFileLoader;
 
 /*
  * ┌────┐┌────┐┌────┐┌────┐┌────┐
@@ -65,6 +67,7 @@ use PPHI\Exception\WrongFileFormatException;
  */
 class PPHI
 {
+    use ConfigFileLoader;
     const VERSION = "0.x.0";
 
     const DATA_SOURCES_PATH = "pphi/datasources";
@@ -84,6 +87,8 @@ class PPHI
      */
     private $connectionManager;
 
+    private $logger;
+
     /**
      * PPHI constructor.
      * Load all dataSources found in {@link DATA_SOURCES_PATH} directory
@@ -94,25 +99,18 @@ class PPHI
      */
     public function __construct()
     {
+        $this->logger = PPHILogger::getLogger();
+
         $this->dataSourcesManager = new DataSourceManager(new Processor(), [new MySQLExpert()]);
         $this->connectionManager = new ConnectionManager();
-        $dataSourcesDir = dir(self::DATA_SOURCES_PATH);
-        if (is_null($dataSourcesDir) || $dataSourcesDir === false) {
-            throw new ConfigNotFoundException("Data sources (pphi/datasources) config directory not found");
-        }
-        while (false !== ($entry = $dataSourcesDir->read())) {
-            if (strcmp($entry, ".") != 0 && strcmp($entry, "..") != 0) {
-                $filename = self::DATA_SOURCES_PATH . DIRECTORY_SEPARATOR . $entry;
-                $extension = pathinfo($filename)['extension'];
-                if (strcmp($extension, 'yml') !== 0 && strcmp($extension, "yaml") !== 0) {
-                    throw new WrongFileFormatException("data sources config file must be yaml file");
-                }
-                $this->dataSources[substr($entry, 0, -(strlen($extension) + 1))] = \yaml_parse_file($filename);
-            }
-        }
+
+        $this->dataSources = $this->getConfig(self::DATA_SOURCES_PATH);
+
+        $this->logger->addInfo('Loading data sources ...', ['class' => 'PPHI']);
         $this->dataSourcesManager->load($this->dataSources);
         $this->connectionManager->addConnectionFromDataSourceArray($this->dataSourcesManager->getDataSources());
 
+        $this->logger->addInfo('Data sources loaded', ['class' => 'PPHI']);
         echo "<pre>";
         print_r($this->connectionManager->getConnections());
         echo "<h1>Error</h1>";

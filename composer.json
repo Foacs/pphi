@@ -3,7 +3,7 @@
     "description": "PHP Persistence Holder Interface",
     "type": "library",
     "license": "CECILL-C",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "authors": [
         {
             "name": "dederobert",
@@ -22,7 +22,7 @@
     }
   },
   "require": {
-    "php": ">=7.2.0",
+    "php": ">=7.1.0",
     "ext-yaml": "*",
     "ext-pdo": "*",
     "filp/whoops": "^2.3.1",

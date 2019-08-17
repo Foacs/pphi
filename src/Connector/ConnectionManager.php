@@ -39,9 +39,11 @@
 
 namespace PPHI\Connector;
 
+use Monolog\Logger;
 use PPHI\Connector\Database\MySQLConnector;
 use PPHI\DataSource\Source\DataSource;
 use PPHI\Exception\UnknownDataSourcesTypeException;
+use PPHI\utils\PPHILogger;
 
 /**
  * Class ConnectionManager
@@ -67,24 +69,48 @@ class ConnectionManager
     private $errors = array();
 
     /**
+     * @var Logger
+     */
+    private $logger;
+
+    public function __construct()
+    {
+        $this->logger = PPHILogger::getLogger();
+    }
+
+    /**
      * Add connection for a data source
      *
      * @param DataSource $dataSource data source which will be add
+     * @param Connector|null $givenConnector
      * @return bool True if successfully added
      */
     public function addConnectionFromDataSource(DataSource $dataSource, Connector $givenConnector = null): bool
     {
         if (array_key_exists($dataSource->getIdentifier(), $this->connections)) {
+            $this->logger->addWarning(
+                $dataSource->getIdentifier() . ' is duplicated ! ignore it !',
+                ['class' => 'ConnectionManager']
+            );
             return false;
         }
         try {
             $connector = $givenConnector ?? $this->buildConnectorFromDataSource($dataSource);
             if (!$connector->connect($dataSource)) {
+                $this->logger->addWarning(
+                    'Impossible to connect with data source ' . $dataSource->getIdentifier(),
+                    ['class' => 'ConnectionManager']
+                );
                 array_push($this->errors, $connector->getError());
                 return false;
             }
             array_push($this->connections, $connector);
         } catch (UnknownDataSourcesTypeException $e) {
+            $this->logger->addWarning(
+                $dataSource->getIdentifier() . ' has a unknown type ! ignore it !',
+                ['class' => 'ConnectionManager']
+            );
+            $this->logger->addWarning('Runtime error: ' . $e->getMessage(), ['class' => 'ConnectionManager']);
             return false;
         }
         return true;
@@ -98,12 +124,14 @@ class ConnectionManager
      */
     public function addConnectionFromDataSourceArray(array $dataSources): int
     {
+        $this->logger->addInfo('Adding connections ...', ['class' => 'ConnectionManager']);
         $res = 0;
         foreach ($dataSources as $dataSource) {
             if ($this->addConnectionFromDataSource($dataSource)) {
                 $res++;
             }
         }
+        $this->logger->addInfo($res . ' connection added', ['class' => 'ConnectionManager']);
         return $res;
     }
 
