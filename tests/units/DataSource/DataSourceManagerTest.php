@@ -46,6 +46,7 @@ use PPHI\DataSource\DataSourceManager;
 use PPHI\DataSource\Expert\Processor;
 use PPHI\DataSource\Source\MySQLDataSource;
 use PPHI\Exception\UnknownDataSourcesTypeException;
+use PPHI\utils\PPHILogger;
 
 class DataSourceManagerTest extends TestCase
 {
@@ -62,6 +63,7 @@ class DataSourceManagerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+        PPHILogger::getInstance()->setIgnoreFile(true);
         $this->processor = Mockery::mock(Processor::class);
         $this->processor->allows()->pushExpert(Mockery::any());
 

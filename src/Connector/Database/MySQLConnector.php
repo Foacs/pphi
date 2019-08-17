@@ -41,11 +41,13 @@
 
 namespace PPHI\Connector\Database;
 
+use Monolog\Logger;
 use PDO;
 use PPHI\Connector\Connector;
 use PPHI\Connector\ConnectorError;
 use PPHI\DataSource\Source\DataSource;
 use PPHI\DataSource\Source\MySQLDataSource;
+use PPHI\utils\PPHILogger;
 
 /**
  * Class MySQLConnector
@@ -71,6 +73,15 @@ class MySQLConnector implements Connector
      * @var ConnectorError
      */
     private $error;
+    /**
+     * @var Logger
+     */
+    private $logger;
+
+    public function __construct()
+    {
+        $this->logger = PPHILogger::getLogger();
+    }
 
     /**
      * Connect to the data source with the specified PDO or new one if null.
@@ -83,13 +94,16 @@ class MySQLConnector implements Connector
     public function connect(DataSource $dataSource, PDO $pdo = null): bool
     {
         if (!$dataSource instanceof MySQLDataSource) {
+            $this->logger->addError(
+                'Try to connect to mysql with non-mysql data source',
+                ['class' => 'MySQLConnector']
+            );
             $this->error = new ConnectorError(get_class($this), "The data source is not a MySQLDataSource", 1);
             return false;
         }
         $dns = 'mysql:host=' . $dataSource->getUrl()
             . ';port=' . $dataSource->getPort() . ';dbname=' . $dataSource->getDatabase();
-        var_dump($dns);
-        var_dump($dataSource->getPassword());
+        $this->logger->addInfo('Try to connect to ' . $dns, ['class' => 'MySQLConnector']);
         try {
             $this->pdo = $pdo ?? new PDO(
                 $dns,
@@ -98,6 +112,7 @@ class MySQLConnector implements Connector
                 array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION)
             );
         } catch (\PDOException $e) {
+            $this->logger->addWarning('Impossible to connect to ' . $dns, ['class' => 'MySQLConnector']);
             $this->error = new ConnectorError(
                 get_class($this),
                 "Error when connecting to MySQL database",

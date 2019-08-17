@@ -42,6 +42,7 @@ namespace PPHI\UnitTest;
 use Exception;
 use PHPUnit\Framework\TestCase;
 use PPHI\Connector\ConnectorError;
+use PPHI\utils\PPHILogger;
 use ReflectionClass;
 use ReflectionException;
 
@@ -58,6 +59,7 @@ class ConnectorErrorTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+        PPHILogger::getInstance()->setIgnoreFile(true);
         $this->victim = new ConnectorError(get_class($this), self::MESSAGE, self::CODE, new Exception("test"));
     }
 

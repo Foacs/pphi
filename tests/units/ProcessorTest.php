@@ -43,6 +43,7 @@ use PHPUnit\Framework\TestCase;
 use PPHI\DataSource\Expert\Expert;
 use PPHI\DataSource\Expert\Processor;
 use PPHI\DataSource\Source\MySQLDataSource;
+use PPHI\utils\PPHILogger;
 
 class ProcessorTest extends TestCase
 {
@@ -57,6 +58,7 @@ class ProcessorTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
+        PPHILogger::getInstance()->setIgnoreFile(true);
         $this->victim = new Processor();
         $this->mockExpertMySQL = $this->createMock(Expert::class);
         $this->mockExpertMySQL->method('execute')->with('mysql')->willReturn(new MySQLDataSource(""));
